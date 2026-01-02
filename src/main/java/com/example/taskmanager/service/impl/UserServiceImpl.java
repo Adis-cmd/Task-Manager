@@ -57,5 +57,41 @@ public class UserServiceImpl implements UserService {
         return FileUtil.getOutputFile(imageName, "images/");
     }
 
+    @Override
+    public ViewProfileDto profile(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
+        List<ProjectMember> projectMembers =
+                projectMemberService.findAllProjectWithUser(user.getId());
+
+        List<ProjectDto> projectDtos = projectMembers.stream()
+                .map(this::convertToProjectDto)
+                .collect(Collectors.toList());
+
+        return ViewProfileDto.builder()
+                .name(user.getName())
+                .avatar(user.getAvatar())
+                .projectDto(projectDtos)
+                .build();
+    }
+
+    private ProjectDto convertToProjectDto(ProjectMember projectMember) {
+        Project project = projectMember.getProject();
+
+        return ProjectDto.builder()
+                .id(project.getId())
+                .name(project.getName())
+                .leader(convertToUserDto(project.getLeader()))
+                .userRole(projectMember.getRole().name())
+                .build();
+    }
+
+    private UserDto convertToUserDto(User user) {
+        return UserDto.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .avatar(user.getAvatar())
+                .build();
+    }
 }

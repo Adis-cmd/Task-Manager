@@ -1,7 +1,11 @@
 package com.example.taskmanager.entity;
 
+import com.example.taskmanager.entity.project.Project;
+import com.example.taskmanager.entity.project.Task;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,5 +32,20 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "authorities_id", referencedColumnName = "id")
     Authority authority;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    List<Task> createdTasks;
+
+    @ManyToMany(mappedBy = "participants")
+    List<Task> participatingTasks;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    List<Comment> comments;
+
+    @OneToMany(mappedBy = "leader")
+    List<Project> leadProjects;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<ProjectMember> projectMemberships;
 }
 
