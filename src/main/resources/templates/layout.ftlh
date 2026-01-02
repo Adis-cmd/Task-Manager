@@ -282,7 +282,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
             flex: 1;
@@ -371,7 +371,7 @@
     </a>
 
     <#if SPRING_SECURITY_CONTEXT?? && SPRING_SECURITY_CONTEXT.authentication??>
-    <a href="/profile" class="nav-link ${(currentPath?starts_with('/profile'))?then('active', '')}">
+    <a href="/profile/main" class="nav-link ${(currentPath?starts_with('/profile'))?then('active', '')}">
         <i class="bi bi-person-circle"></i>
         Профиль
     </a>
@@ -410,7 +410,6 @@
 </footer>
 
 <script>
-    // Добавление тени при скролле
     window.addEventListener('scroll', function() {
         const header = document.getElementById('header');
         if (window.scrollY > 0) {
