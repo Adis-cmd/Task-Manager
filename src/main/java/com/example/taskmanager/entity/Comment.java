@@ -2,10 +2,7 @@ package com.example.taskmanager.entity;
 
 import com.example.taskmanager.entity.project.Task;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
@@ -16,6 +13,8 @@ import java.time.LocalDateTime;
 @Table(name = "comments")
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
