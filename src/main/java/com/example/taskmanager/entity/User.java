@@ -23,11 +23,9 @@ public class User {
     Boolean enabled;
     @Column(name = "name")
     String name;
-    @Column(name = "user_name")
-    String userName;
     @Column(name = "avatar")
     String avatar;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "authorities_id", referencedColumnName = "id")
     Authority authority;
 }
