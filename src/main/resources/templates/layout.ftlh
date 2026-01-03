@@ -16,14 +16,6 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #ffffff;
-            color: #1a1a1a;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
 
         .header {
             background: #ffffff;
