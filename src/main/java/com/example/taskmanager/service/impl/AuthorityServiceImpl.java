@@ -1,6 +1,6 @@
 package com.example.taskmanager.service.impl;
 
-import com.example.taskmanager.entity.Authority;
+import com.example.taskmanager.entity.user.Authority;
 import com.example.taskmanager.exception.AuthorityNotFoundException;
 import com.example.taskmanager.repo.AuthorityRepository;
 import com.example.taskmanager.service.AuthorityService;

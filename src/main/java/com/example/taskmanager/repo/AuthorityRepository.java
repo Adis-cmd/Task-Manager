@@ -1,6 +1,6 @@
 package com.example.taskmanager.repo;
 
-import com.example.taskmanager.entity.Authority;
+import com.example.taskmanager.entity.user.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

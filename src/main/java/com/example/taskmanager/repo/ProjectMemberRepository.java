@@ -1,6 +1,6 @@
 package com.example.taskmanager.repo;
 
-import com.example.taskmanager.entity.ProjectMember;
+import com.example.taskmanager.entity.project.ProjectMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

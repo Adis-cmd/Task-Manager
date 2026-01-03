@@ -1,6 +1,6 @@
 package com.example.taskmanager.service.impl;
 
-import com.example.taskmanager.entity.ProjectMember;
+import com.example.taskmanager.entity.project.ProjectMember;
 import com.example.taskmanager.repo.ProjectMemberRepository;
 import com.example.taskmanager.service.ProjectMemberService;
 import lombok.RequiredArgsConstructor;

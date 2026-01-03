@@ -1,6 +1,6 @@
 package com.example.taskmanager.service.impl;
 
-import com.example.taskmanager.entity.User;
+import com.example.taskmanager.entity.user.User;
 import com.example.taskmanager.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

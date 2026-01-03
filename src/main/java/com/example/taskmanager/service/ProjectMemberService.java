@@ -1,6 +1,6 @@
 package com.example.taskmanager.service;
 
-import com.example.taskmanager.entity.ProjectMember;
+import com.example.taskmanager.entity.project.ProjectMember;
 
 import java.util.List;
 
