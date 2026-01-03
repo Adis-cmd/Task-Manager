@@ -545,6 +545,7 @@
 </style>
 
 <div class="project-detail-wrapper">
+    <!-- Header -->
     <div class="project-detail-header">
         <div class="project-detail-title-section">
             <a href="/profile/main" class="project-detail-back-link">
@@ -582,27 +583,26 @@
                         <div class="project-detail-member-placeholder">
                             <i class="bi bi-person-fill"></i>
                         </div>
-                    </
-                    #if>
+                    </#if>
                     <div class="project-detail-member-info">
                         <div class="project-detail-member-name">${member.name}</div>
                         <div class="project-detail-member-role">${member.role}</div>
                     </div>
                 </div>
-            </
-            #list>
+            </#list>
             <#else>
             <div class="project-detail-empty-state" style="padding: 30px 20px; border: none;">
                 <i class="bi bi-person-x" style="font-size: 40px; margin-bottom: 8px;"></i>
                 <div class="project-detail-empty-title" style="font-size: 16px;">Нет участников</div>
             </div>
-        </
-        #if>
+        </#if>
     </div>
 </div>
 </div>
 
+<!-- Main Content -->
 <div class="project-detail-main">
+    <!-- Boards Section -->
     <div class="project-detail-boards-section">
         <div class="project-detail-boards-header">
             <h2 class="project-detail-boards-title">
@@ -614,8 +614,7 @@
                 <i class="bi bi-plus-circle-fill"></i>
                 <span>Создать доску</span>
             </button>
-        </
-        #if>
+        </#if>
     </div>
 
     <#if project.boards?? && project.boards?has_content>
@@ -627,8 +626,7 @@
             </div>
             <h3 class="project-detail-board-name">${board.name}</h3>
         </a>
-    </
-    #list>
+    </#list>
 </div>
 <#else>
 <div class="project-detail-empty-state">
@@ -646,6 +644,7 @@
 </div>
 </div>
 
+<!-- Modal для создания доски -->
 <div id="createBoardModal" class="project-detail-modal-overlay" onclick="closeCreateBoardModal(event)">
     <div class="project-detail-modal-container" onclick="event.stopPropagation()">
         <div class="project-detail-modal-header">
@@ -682,8 +681,7 @@
             </div>
 
             <div class="project-detail-modal-footer">
-                <button type="button" class="project-detail-modal-button project-detail-modal-button-secondary"
-                        onclick="closeCreateBoardModal()">
+                <button type="button" class="project-detail-modal-button project-detail-modal-button-secondary" onclick="closeCreateBoardModal()">
                     Отмена
                 </button>
                 <button type="submit" class="project-detail-modal-button project-detail-modal-button-primary">
@@ -695,6 +693,7 @@
     </div>
 </div>
 
+<!-- Modal для добавления участника -->
 <div id="addMemberModal" class="project-detail-modal-overlay" onclick="closeAddMemberModal(event)">
     <div class="project-detail-modal-container" onclick="event.stopPropagation()">
         <div class="project-detail-modal-header">
@@ -745,17 +744,14 @@
 
                 <div class="project-detail-modal-form-group" style="margin-bottom: 0;">
                     <div style="padding: 12px; background: #f5f5f5; border-radius: 6px; font-size: 13px; color: #666;">
-                        <div style="margin-bottom: 6px;"><strong>MEMBER:</strong> Может просматривать, редактировать и
-                            создавать задачи
-                        </div>
+                        <div style="margin-bottom: 6px;"><strong>MEMBER:</strong> Может просматривать, редактировать и создавать задачи</div>
                         <div><strong>VIEWER:</strong> Может только просматривать проект</div>
                     </div>
                 </div>
             </div>
 
             <div class="project-detail-modal-footer">
-                <button type="button" class="project-detail-modal-button project-detail-modal-button-secondary"
-                        onclick="closeAddMemberModal()">
+                <button type="button" class="project-detail-modal-button project-detail-modal-button-secondary" onclick="closeAddMemberModal()">
                     Отмена
                 </button>
                 <button type="submit" class="project-detail-modal-button project-detail-modal-button-primary">

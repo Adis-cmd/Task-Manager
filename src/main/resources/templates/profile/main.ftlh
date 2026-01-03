@@ -597,7 +597,7 @@
     <#if profile.projectDto?? && profile.projectDto?has_content>
     <div class="profile-projects-grid">
         <#list profile.projectDto as project>
-        <div class="profile-project-card" onclick="window.location.href='/projects/${project.id}'">
+        <div class="profile-project-card" onclick="window.location.href='/project/${project.id}'">
             <div class="profile-project-header">
                 <div>
                     <h3 class="profile-project-name">${project.name}</h3>
