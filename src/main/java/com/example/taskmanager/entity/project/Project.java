@@ -1,10 +1,11 @@
 package com.example.taskmanager.entity.project;
 
-import com.example.taskmanager.entity.User;
+import com.example.taskmanager.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -28,5 +29,10 @@ public class Project {
     User leader;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Board> tables;
+    List<Board> boards;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    List<ProjectMember> members = new ArrayList<>();
+    ;
 }

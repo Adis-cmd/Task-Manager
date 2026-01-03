@@ -1,6 +1,7 @@
-package com.example.taskmanager.entity;
+package com.example.taskmanager.entity.project;
 
-import com.example.taskmanager.entity.project.Project;
+import com.example.taskmanager.entity.enums.Role;
+import com.example.taskmanager.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 

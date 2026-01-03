@@ -1,9 +1,8 @@
 package com.example.taskmanager.entity.project;
 
-import com.example.taskmanager.entity.Comment;
-import com.example.taskmanager.entity.Priority;
-import com.example.taskmanager.entity.Status;
-import com.example.taskmanager.entity.User;
+import com.example.taskmanager.entity.enums.Priority;
+import com.example.taskmanager.entity.enums.Status;
+import com.example.taskmanager.entity.user.User;
 import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import lombok.*;
