@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,8 +23,10 @@ public class BoardColumn {
 
     String name;
 
+    @Builder.Default
     @OneToMany(mappedBy = "column", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Task> tasks;
+    List<Task> tasks = new ArrayList<>();
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
