@@ -23,7 +23,7 @@
             padding: 0 48px;
             height: 70px;
             display: grid;
-            grid-template-columns: 250px 1fr 250px;
+            grid-template-columns: 250px 1fr auto;
             align-items: center;
             position: sticky;
             top: 0;
@@ -273,6 +273,18 @@
             color: #ffffff;
         }
 
+        .btn-profile {
+            background: #ffffff;
+            color: #1a1a1a;
+            border: 1px solid #e0e0e0;
+            padding: 10px 20px;
+        }
+
+        .btn-profile:hover {
+            background: #f5f5f5;
+            border-color: #1a1a1a;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -343,49 +355,107 @@
             Главная
         </a>
 
+        <a href="/projects" class="nav-link ${(currentPath?starts_with('/projects'))?then('active', '')}">
+            <i class="bi bi-kanban"></i>
+            Проекты
+        </a>
+
+        <a href="/tasks" class="nav-link ${(currentPath?starts_with('/tasks'))?then('active', '')}">
+            <i class="bi bi-list-check"></i>
+            Задачи
+        </a>
+
+        <a href="/team" class="nav-link ${(currentPath?starts_with('/team'))?then('active', '')}">
+            <i class="bi bi-people-fill"></i>
+            Команда
+        </a>
+    </nav>
+
+    <div class="nav-right">
         <#if SPRING_SECURITY_CONTEXT?? && SPRING_SECURITY_CONTEXT.authentication??>
         <#assign user = SPRING_SECURITY_CONTEXT.authentication.principal>
+
+        <a href="/profile/main" class="btn btn-profile">
+            <i class="bi bi-person-circle"></i>
+            Профиль
+        </a>
+
+        <#if _csrf??>
+        <form action="/logout" method="post" style="display: inline;">
+            <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+                   value="${(_csrf.token)!'--no-token--'}"/>
+            <button type="submit" class="btn btn-logout">
+                <i class="bi bi-box-arrow-right"></i>
+                Выйти
+            </button>
+        </form>
     </#if>
-
-    <a href="/projects" class="nav-link ${(currentPath?starts_with('/projects'))?then('active', '')}">
-        <i class="bi bi-kanban"></i>
-        Проекты
+    <#else>
+    <a href="/auth/login" class="btn">
+        <i class="bi bi-box-arrow-in-right"></i>
+        Войти
     </a>
-
-    <a href="/tasks" class="nav-link ${(currentPath?starts_with('/tasks'))?then('active', '')}">
-        <i class="bi bi-list-check"></i>
-        Задачи
-    </a>
-
-    <a href="/team" class="nav-link ${(currentPath?starts_with('/team'))?then('active', '')}">
-        <i class="bi bi-people-fill"></i>
-        Команда
-    </a>
-
-    <#if SPRING_SECURITY_CONTEXT?? && SPRING_SECURITY_CONTEXT.authentication??>
-    <a href="/profile/main" class="nav-link ${(currentPath?starts_with('/profile'))?then('active', '')}">
-        <i class="bi bi-person-circle"></i>
-        Профиль
-    </a>
-
-    <#if _csrf??>
-    <form action="/logout" method="post" style="display: inline;">
-        <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
-               value="${(_csrf.token)!'--no-token--'}"/>
-        <button type="submit" class="btn btn-logout">
-            <i class="bi bi-box-arrow-right"></i>
-            Выйти
-        </button>
-    </form>
 </#if>
-<#else>
-<a href="/auth/login" class="btn">
-    <i class="bi bi-box-arrow-in-right"></i>
-    Войти
-</a>
+</div>
+
+<button class="burger-menu" id="burgerMenu">
+    <span class="burger-line"></span>
+    <span class="burger-line"></span>
+    <span class="burger-line"></span>
+</button>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+    <nav class="mobile-nav">
+        <#assign currentPath = springMacroRequestContext.requestUri>
+
+        <a href="/" class="mobile-nav-link ${(currentPath == '/')?then('active', '')}">
+            <i class="bi bi-house-door-fill"></i>
+            Главная
+        </a>
+
+        <a href="/projects" class="mobile-nav-link ${(currentPath?starts_with('/projects'))?then('active', '')}">
+            <i class="bi bi-kanban"></i>
+            Проекты
+        </a>
+
+        <a href="/tasks" class="mobile-nav-link ${(currentPath?starts_with('/tasks'))?then('active', '')}">
+            <i class="bi bi-list-check"></i>
+            Задачи
+        </a>
+
+        <a href="/team" class="mobile-nav-link ${(currentPath?starts_with('/team'))?then('active', '')}">
+            <i class="bi bi-people-fill"></i>
+            Команда
+        </a>
+
+        <#if SPRING_SECURITY_CONTEXT?? && SPRING_SECURITY_CONTEXT.authentication??>
+        <div class="mobile-divider"></div>
+
+        <a href="/profile/main" class="mobile-nav-link ${(currentPath?starts_with('/profile'))?then('active', '')}">
+            <i class="bi bi-person-circle"></i>
+            Профиль
+        </a>
+
+        <#if _csrf??>
+        <form action="/logout" method="post" class="mobile-btn">
+            <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+                   value="${(_csrf.token)!'--no-token--'}"/>
+            <button type="submit" class="btn btn-logout" style="width: 100%;">
+                <i class="bi bi-box-arrow-right"></i>
+                Выйти
+            </button>
+        </form>
+    </#if>
+    <#else>
+    <div class="mobile-divider"></div>
+    <a href="/auth/login" class="btn mobile-btn">
+        <i class="bi bi-box-arrow-in-right"></i>
+        Войти
+    </a>
 </#if>
 </nav>
-</header>
+</div>
 
 <div class="container">
     <#nested spring>
@@ -409,6 +479,14 @@
         } else {
             header.classList.remove('scrolled');
         }
+    });
+
+    const burgerMenu = document.getElementById('burgerMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    burgerMenu.addEventListener('click', function() {
+        burgerMenu.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
     });
 </script>
 
