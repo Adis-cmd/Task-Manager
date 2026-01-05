@@ -1,16 +1,20 @@
 package com.example.taskmanager.dto;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BoardDto {
+public class CommentDto {
     Long id;
-    String name;
+    UserDto author;
+    String text;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
+
 }
