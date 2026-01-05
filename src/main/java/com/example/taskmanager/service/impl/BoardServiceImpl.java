@@ -1,9 +1,11 @@
 package com.example.taskmanager.service.impl;
 
+import com.example.taskmanager.dto.BoardDetailsDto;
 import com.example.taskmanager.dto.BoardDto;
 import com.example.taskmanager.dto.CreateBoardDto;
 import com.example.taskmanager.entity.project.Board;
 import com.example.taskmanager.entity.project.Project;
+import com.example.taskmanager.exception.BoardNotFoundException;
 import com.example.taskmanager.exception.ProjectNotFountException;
 import com.example.taskmanager.repo.BoardRepository;
 import com.example.taskmanager.repo.ProjectRepository;
@@ -44,6 +46,14 @@ public class BoardServiceImpl implements BoardService {
                         .project(project)
                         .build()
         );
+    }
+
+
+    public BoardDetailsDto showBoard(Long id) {
+     Board board = repository.findById(id)
+             .orElseThrow(() -> new  BoardNotFoundException("Board not Fount!!"));
+
+
     }
 
 }
