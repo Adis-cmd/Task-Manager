@@ -41,7 +41,7 @@ public class Task {
     String description;
 
     @OneToMany(mappedBy = "task")
-    private List<Comment> comments;
+    List<Comment> comments;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
