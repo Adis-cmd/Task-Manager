@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("board")
+@RequestMapping("boards")
 public class BoardController {
     private final BoardService boardService;
 
@@ -39,7 +39,7 @@ public class BoardController {
     @GetMapping("{id}")
     public String showBoard(@PathVariable("id") Long id, Model model) {
 
-        model.addAttribute("board", boardService)
+        model.addAttribute("board", boardService.showBoard(id));
         return "board/detail";
     }
 }
