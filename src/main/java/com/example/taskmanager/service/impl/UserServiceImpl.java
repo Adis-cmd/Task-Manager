@@ -94,4 +94,17 @@ public class UserServiceImpl implements UserService {
                 .avatar(user.getAvatar())
                 .build();
     }
+
+
+    @Override
+    public UserDto getById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        return UserDto.builder()
+                .avatar(user.getAvatar())
+                .name(user.getName())
+                .id(user.getId())
+                .build();
+    }
 }
