@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
 
-    @Query(value = "select t from Task where t.column.id = :columnId")
+    @Query(value = "select t from Task t where t.column.id = :columnId")
     Optional<Task> findTaskByColumId(Long columnId);
 }
