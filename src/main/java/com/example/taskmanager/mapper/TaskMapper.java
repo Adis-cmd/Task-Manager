@@ -5,6 +5,8 @@ import com.example.taskmanager.entity.project.Task;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class TaskMapper {
@@ -28,4 +30,16 @@ public class TaskMapper {
                 .comments(commentMapper.toDtoList(task.getComments()))
                 .build();
     }
+
+    public List<TaskDto> toDtoList(List<Task> taskDtos) {
+        if (taskDtos == null || taskDtos.isEmpty()) {
+            return List.of();
+        }
+
+
+        return taskDtos.stream()
+                .map(this::toDto)
+                .toList();
+    }
+
 }
