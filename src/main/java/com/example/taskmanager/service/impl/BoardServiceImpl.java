@@ -1,15 +1,15 @@
 package com.example.taskmanager.service.impl;
 
-import com.example.taskmanager.dto.BoardDetailsDto;
-import com.example.taskmanager.dto.BoardDto;
-import com.example.taskmanager.dto.CreateBoardDto;
+import com.example.taskmanager.dto.*;
 import com.example.taskmanager.entity.project.Board;
 import com.example.taskmanager.entity.project.Project;
 import com.example.taskmanager.exception.BoardNotFoundException;
 import com.example.taskmanager.exception.ProjectNotFountException;
 import com.example.taskmanager.repo.BoardRepository;
 import com.example.taskmanager.repo.ProjectRepository;
+import com.example.taskmanager.service.BoardColumnService;
 import com.example.taskmanager.service.BoardService;
+import com.example.taskmanager.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +20,7 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService {
     private final BoardRepository repository;
     private final ProjectRepository projectRepository;
+    private final BoardColumnService boardColumnService;
 
     @Override
     public List<BoardDto> findAllBoardByProject(Long id) {
@@ -49,11 +50,24 @@ public class BoardServiceImpl implements BoardService {
     }
 
 
+    @Override
     public BoardDetailsDto showBoard(Long id) {
-     Board board = repository.findById(id)
-             .orElseThrow(() -> new  BoardNotFoundException("Board not Fount!!"));
+        Board board = repository.findById(id)
+                .orElseThrow(() -> new BoardNotFoundException("Board not Fount!!"));
+        List<BoardColumnDetailsDto> columnDto = boardColumnService.getAllColumnByBoardId(board.getId());
+
+        return BoardDetailsDto.builder()
+                .id(board.getId())
+                .name(board.getName())
+                .columnDto(columnDto)
+                .build();
+    }
 
 
+    @Override
+    public Board findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new BoardNotFoundException("Board Not Found!!"));
     }
 
 }
