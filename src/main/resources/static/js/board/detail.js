@@ -93,3 +93,25 @@
             }
         }, { passive: false });
     });
+
+function closeBoardFlashMessage(button) {
+    const message = button.closest('.board-flash-message');
+    message.style.animation = 'fadeOut 0.3s ease-out';
+    setTimeout(() => {
+        message.remove();
+    }, 300);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const flashMessages = document.querySelectorAll('.board-flash-message');
+    flashMessages.forEach(message => {
+        setTimeout(() => {
+            if (message.parentElement) {
+                message.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            }
+        }, 5000);
+    });
+});
