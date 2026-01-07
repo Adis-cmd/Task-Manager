@@ -3,82 +3,102 @@
 <link rel="stylesheet" href="/css/board/detail.css">
 
 <div class="board-detail-wrapper">
-    <div class="board-detail-header">
-        <div class="board-detail-title-section">
-            <a href="javascript:history.back()" class="board-detail-back-link">
-                <i class="bi bi-arrow-left"></i>
-                <span>Назад к проекту</span>
-            </a>
-            <h1 class="board-detail-name">${board.name}</h1>
-        </div>
-        <div class="board-detail-actions">
-            <button onclick="openAddColumnModal()" class="board-detail-button board-detail-button-secondary">
-                <i class="bi bi-plus-square-fill"></i>
-                <span>Добавить колонку</span>
-            </button>
-            <button onclick="openCreateTaskModal()" class="board-detail-button board-detail-button-primary">
-                <i class="bi bi-plus-circle-fill"></i>
-                <span>Создать задачу</span>
-            </button>
-        </div>
+    <#if success??>
+    <div class="board-flash-message board-flash-success">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>${success}</span>
+        <button onclick="closeBoardFlashMessage(this)" class="board-flash-close">
+            <i class="bi bi-x"></i>
+        </button>
     </div>
+</#if>
 
-    <div class="board-detail-columns-container">
-        <#if board.columnDto?? && board.columnDto?has_content>
-        <#list board.columnDto as column>
-        <div class="board-detail-column">
-            <div class="board-detail-column-header">
-                <h2 class="board-detail-column-title">${column.name}</h2>
-                <span class="board-detail-column-count">${column.taskDtos?size}</span>
-            </div>
+<#if error??>
+<div class="board-flash-message board-flash-error">
+    <i class="bi bi-exclamation-circle-fill"></i>
+    <span>${error}</span>
+    <button onclick="closeBoardFlashMessage(this)" class="board-flash-close">
+        <i class="bi bi-x"></i>
+    </button>
+</div>
+</#if>
 
-            <div class="board-detail-tasks-list">
-                <#if column.taskDtos?? && column.taskDtos?has_content>
-                <#list column.taskDtos as task>
-                <div class="board-detail-task-card" onclick="openTaskDetailModal(${task.id})">
-                    <h3 class="board-detail-task-name">${task.name}</h3>
+<div class="board-detail-header">
+    <div class="board-detail-title-section">
+        <a href="javascript:history.back()" class="board-detail-back-link">
+            <i class="bi bi-arrow-left"></i>
+            <span>Назад к проекту</span>
+        </a>
+        <h1 class="board-detail-name">${board.name}</h1>
+    </div>
+    <div class="board-detail-actions">
+        <button onclick="openAddColumnModal()" class="unified-button unified-button-secondary">
+            <i class="bi bi-plus-square-fill"></i>
+            <span>Добавить колонку</span>
+        </button>
+        <button onclick="openCreateTaskModal()" class="unified-button unified-button-primary">
+            <i class="bi bi-plus-circle-fill"></i>
+            <span>Создать задачу</span>
+        </button>
+    </div>
+</div>
 
-                    <div class="board-detail-task-meta">
-                        <#if task.priority??>
-                        <span class="board-detail-task-badge board-detail-task-priority-${task.priority?lower_case}">
-                                                ${task.priority}
-                                            </span>
-                    </#if>
-                    <#if task.status??>
-                    <span class="board-detail-task-badge board-detail-task-status">
-                                                ${task.status}
-                                            </span>
+<div class="board-detail-columns-container">
+    <#if board.columnDto?? && board.columnDto?has_content>
+    <#list board.columnDto as column>
+    <div class="board-detail-column">
+        <div class="board-detail-column-header">
+            <h2 class="board-detail-column-title">${column.name}</h2>
+            <span class="board-detail-column-count">${column.taskDtos?size}</span>
+        </div>
+
+        <div class="board-detail-tasks-list">
+            <#if column.taskDtos?? && column.taskDtos?has_content>
+            <#list column.taskDtos as task>
+            <div class="board-detail-task-card" onclick="openTaskDetailModal(${task.id})">
+                <h3 class="board-detail-task-name">${task.name}</h3>
+
+                <div class="board-detail-task-meta">
+                    <#if task.priority??>
+                    <span class="board-detail-task-badge board-detail-task-priority-${task.priority?lower_case}">
+                                    ${task.priority}
+                                </span>
                 </#if>
-            </div>
-
-            <div class="board-detail-task-footer">
-                <div class="board-detail-task-author">
-                    <#if task.author??>
-                    <#if task.author.avatar?? && task.author.avatar?has_content>
-                    <img src="${task.author.avatar}" alt="${task.author.name}" class="board-detail-task-avatar">
-                    <#else>
-                    <div class="board-detail-task-avatar-placeholder">
-                        <i class="bi bi-person-fill"></i>
-                    </div>
-                </#if>
-                <span class="board-detail-task-author-name">${task.author.name}</span>
+                <#if task.status??>
+                <span class="board-detail-task-badge board-detail-task-status">
+                                    ${task.status}
+                                </span>
             </#if>
         </div>
 
-        <div class="board-detail-task-participants">
-            <#if task.participants?? && task.participants?has_content>
-            <div class="board-detail-task-participants-list">
-                <#list task.participants as participant>
-                <#if participant?? && participant_index < 3>
-                <#if participant.avatar?? && participant.avatar?has_content>
-                <img src="${participant.avatar}" alt="${participant.name}" class="board-detail-task-participant-avatar" title="${participant.name}">
+        <div class="board-detail-task-footer">
+            <div class="board-detail-task-author">
+                <#if task.author??>
+                <#if task.author.avatar?? && task.author.avatar?has_content>
+                <img src="/photo/${task.author.avatar}" alt="${task.author.name}" class="board-detail-task-avatar">
                 <#else>
-                <div class="board-detail-task-participant-placeholder" title="${participant.name}">
+                <div class="board-detail-task-avatar-placeholder">
                     <i class="bi bi-person-fill"></i>
                 </div>
             </#if>
+            <span class="board-detail-task-author-name">${task.author.name}</span>
         </#if>
-    </#list>
+    </div>
+
+    <div class="board-detail-task-participants">
+        <#if task.participants?? && task.participants?has_content>
+        <div class="board-detail-task-participants-list">
+            <#list task.participants as participant>
+            <#if participant?? && participant_index < 3>
+            <#if participant.avatar?? && participant.avatar?has_content>
+            <img src="${participant.avatar}" alt="${participant.name}" class="board-detail-task-participant-avatar" title="${participant.name}">
+            <#else>
+            <div class="board-detail-task-participant-placeholder" title="${participant.name}">
+                <i class="bi bi-person-fill"></i>
+            </div>
+        </#if>
+    </#if>
+</#list>
 </div>
 </#if>
 
@@ -110,7 +130,7 @@
 <div class="board-detail-empty-column" style="min-width: 100%; padding: 80px 40px;">
     <i class="bi bi-columns-gap" style="font-size: 64px;"></i>
     <div class="board-detail-empty-column-text" style="font-size: 18px;">Нет колонок</div>
-    <button onclick="openAddColumnModal()" class="board-detail-button board-detail-button-primary" style="margin-top: 20px;">
+    <button onclick="openAddColumnModal()" class="unified-button unified-button-primary" style="margin-top: 20px;">
         <i class="bi bi-plus-square-fill"></i>
         <span>Добавить колонку</span>
     </button>
@@ -134,7 +154,6 @@
         <form action="/tasks/create" method="post" onsubmit="return validateTaskForm()">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" name="boardId" value="${board.id}"/>
-            <input type="hidden" id="taskColumnId" name="columnId"/>
 
             <div class="board-detail-modal-body">
                 <div class="board-detail-modal-form-group">
@@ -182,10 +201,10 @@
     </div>
 
     <div class="board-detail-modal-footer">
-        <button type="button" class="board-detail-modal-button board-detail-modal-button-secondary" onclick="closeCreateTaskModal()">
+        <button type="button" class="unified-button unified-button-secondary" onclick="closeCreateTaskModal()">
             Отмена
         </button>
-        <button type="submit" class="board-detail-modal-button board-detail-modal-button-primary">
+        <button type="submit" class="unified-button unified-button-primary">
             <i class="bi bi-check-circle-fill"></i>
             Создать задачу
         </button>
@@ -226,10 +245,10 @@
             </div>
 
             <div class="board-detail-modal-footer">
-                <button type="button" class="board-detail-modal-button board-detail-modal-button-secondary" onclick="closeAddColumnModal()">
+                <button type="button" class="unified-button unified-button-secondary" onclick="closeAddColumnModal()">
                     Отмена
                 </button>
-                <button type="submit" class="board-detail-modal-button board-detail-modal-button-primary">
+                <button type="submit" class="unified-button unified-button-primary">
                     <i class="bi bi-check-circle-fill"></i>
                     Добавить
                 </button>
