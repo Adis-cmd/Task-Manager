@@ -1,7 +1,11 @@
 package com.example.taskmanager.service.impl;
 
 import com.example.taskmanager.dto.ProjectUserDto;
+import com.example.taskmanager.entity.enums.Role;
+import com.example.taskmanager.entity.project.Project;
 import com.example.taskmanager.entity.project.ProjectMember;
+import com.example.taskmanager.entity.user.User;
+import com.example.taskmanager.exception.ProjectPermissionDeniedException;
 import com.example.taskmanager.repo.ProjectMemberRepository;
 import com.example.taskmanager.service.ProjectMemberService;
 import lombok.RequiredArgsConstructor;
@@ -74,4 +78,13 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     public void save(ProjectMember projectMember) {
         repository.save(projectMember);
     }
+    @Override
+    public void checkTaskEditPermission(User user, Project project) {
+        ProjectMember member = repository.findByUserAndProject(
+                user, project
+        ).orElseThrow(() -> new ProjectPermissionDeniedException("User is not a project member"));
+
+        if (member.getRole() == Role.VIEWER) {
+            throw new ProjectPermissionDeniedException("VIEWER cannot edit tasks");
+        }    }
 }
