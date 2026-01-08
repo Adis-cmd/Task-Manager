@@ -13,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
-public class CreateTaskDto {
+public class RequestTaskDto {
     @NotBlank
     private String name;
 

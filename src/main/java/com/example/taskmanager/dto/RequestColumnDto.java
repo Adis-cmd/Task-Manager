@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateColumnDto {
+public class RequestColumnDto {
     String name;
 }
