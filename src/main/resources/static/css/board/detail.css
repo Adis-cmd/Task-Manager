@@ -772,3 +772,270 @@
         min-width: auto;
     }
 }
+
+/* Стили для режима просмотра */
+.task-detail-view-section {
+    margin-bottom: 24px;
+}
+
+.task-detail-view-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 24px 0;
+    line-height: 1.3;
+}
+
+.task-detail-view-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    margin: 0 0 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.task-detail-view-label i {
+    font-size: 16px;
+}
+
+.task-detail-view-text {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.task-detail-view-text:empty::before {
+    content: 'Описание отсутствует';
+    color: #999;
+    font-style: italic;
+}
+
+.task-detail-view-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.task-detail-view-badge.priority-LOW {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.task-detail-view-badge.priority-MEDIUM {
+    background-color: #fff3e0;
+    color: #f57c00;
+}
+
+.task-detail-view-badge.priority-HIGH {
+    background-color: #fce4ec;
+    color: #c2185b;
+}
+
+.task-detail-view-badge.priority-URGENT {
+    background-color: #ffebee;
+    color: #d32f2f;
+}
+
+.task-detail-view-badge.status-PENDING {
+    background-color: #f5f5f5;
+    color: #757575;
+}
+
+.task-detail-view-badge.status-IN_PROGRESS {
+    background-color: #e8f5e9;
+    color: #388e3c;
+}
+
+.task-detail-view-badge.status-COMPLETED {
+    background-color: #e1f5fe;
+    color: #0288d1;
+}
+
+.task-detail-view-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.task-detail-info-section {
+    display: flex;
+    gap: 32px;
+    padding: 16px 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    margin: 24px 0;
+}
+
+.task-detail-info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.task-detail-info-label {
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.task-detail-info-value {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.task-detail-participants-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.task-detail-participant-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.task-detail-participant-item img,
+.task-detail-participant-item .board-detail-task-participant-placeholder {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+}
+
+.task-detail-comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.task-detail-comment-item {
+    padding: 12px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border-left: 3px solid #2196f3;
+}
+
+.task-detail-comment-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.task-detail-comment-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-detail-comment-author {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.task-detail-comment-date {
+    font-size: 12px;
+    color: #999;
+}
+
+.task-detail-comment-text {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.task-detail-comments-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 8px;
+    background-color: #2196f3;
+    color: white;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .task-detail-view-row {
+        grid-template-columns: 1fr;
+    }
+
+    .task-detail-info-section {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
+/* Стили для описания задачи с функцией свернуть/развернуть */
+.task-detail-view-section {
+    margin-bottom: 20px;
+}
+
+#taskViewDescription {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    line-height: 1.6;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+#taskViewDescription.collapsed {
+    max-height: 150px;
+    overflow: hidden;
+    display: block;
+}
+
+.task-detail-description-wrapper {
+    position: relative;
+}
+
+.task-detail-description-wrapper.has-fade::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+    pointer-events: none;
+}
+
+#toggleDescBtnContainer {
+    margin-top: 10px;
+}
+
+#toggleDescBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    padding: 6px 12px;
+}
+
+#toggleDescBtn i {
+    font-size: 14px;
+}
