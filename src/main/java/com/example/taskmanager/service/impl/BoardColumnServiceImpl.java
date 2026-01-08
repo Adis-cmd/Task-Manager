@@ -1,7 +1,7 @@
 package com.example.taskmanager.service.impl;
 
 import com.example.taskmanager.dto.BoardColumnDetailsDto;
-import com.example.taskmanager.dto.CreateColumnDto;
+import com.example.taskmanager.dto.RequestColumnDto;
 import com.example.taskmanager.entity.project.Board;
 import com.example.taskmanager.entity.project.BoardColumn;
 import com.example.taskmanager.exception.BoardNotFoundException;
@@ -30,7 +30,7 @@ public class BoardColumnServiceImpl implements BoardColumnService {
     }
 
     @Override
-    public void createColumn(Long id, CreateColumnDto columnDto) {
+    public void createColumn(Long id, RequestColumnDto columnDto) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new BoardNotFoundException("Board not found"));
 
@@ -47,5 +47,17 @@ public class BoardColumnServiceImpl implements BoardColumnService {
     public BoardColumn findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ColumnNotFoundException("Column not found!!"));
+    }
+
+
+    @Override
+    public void editColumn(Long id, RequestColumnDto dto) {
+        BoardColumn boardColumn = repository.findById(id).orElseThrow(
+                () -> new ColumnNotFoundException("Column not found!!")
+        );
+
+        boardColumn.setName(dto.getName());
+
+        repository.save(boardColumn);
     }
 }
