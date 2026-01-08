@@ -1,7 +1,8 @@
 package com.example.taskmanager.controller;
 
-import com.example.taskmanager.dto.CreateColumnDto;
+import com.example.taskmanager.dto.RequestColumnDto;
 import com.example.taskmanager.exception.BoardNotFoundException;
+import com.example.taskmanager.exception.ColumnNotFoundException;
 import com.example.taskmanager.service.BoardColumnService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class ColumnController {
     @PostMapping("create")
     public String createColumns(
             @RequestParam Long boardId,
-            @Valid @ModelAttribute CreateColumnDto columnDto,
+            @Valid @ModelAttribute RequestColumnDto columnDto,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
     ) {
@@ -37,6 +38,19 @@ public class ColumnController {
             redirectAttributes.addFlashAttribute("success", "Колонка успешно создана!");
         } catch (BoardNotFoundException ex) {
             redirectAttributes.addFlashAttribute("error", "Ошибка при создании колонки: " + ex.getMessage());
+        }
+        return "redirect:/boards/" + boardId;
+    }
+
+
+    @PostMapping("edit")
+    public String editColumns(Long id, RequestColumnDto dto, Long boardId, RedirectAttributes redirectAttributes) {
+        try {
+            columnService.editColumn(id, dto);
+            redirectAttributes.addFlashAttribute("success", "Колонка успешно отредактированна!");
+        } catch (ColumnNotFoundException exception) {
+            redirectAttributes.addFlashAttribute("error",
+                    "Ошибка при редактирование колонки: " + exception.getMessage());
         }
         return "redirect:/boards/" + boardId;
     }
