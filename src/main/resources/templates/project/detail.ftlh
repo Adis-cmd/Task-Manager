@@ -125,7 +125,7 @@
             </button>
         </div>
 
-        <form action="/board/create/${project.id}" method="post" onsubmit="return validateBoardForm(event)">
+        <form action="/boards/create/${project.id}" method="post" onsubmit="return validateBoardForm(event)">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <div class="project-detail-modal-body">
