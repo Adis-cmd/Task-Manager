@@ -257,5 +257,228 @@
     </div>
 </div>
 
+<div id="taskDetailModal" class="board-detail-modal-overlay" onclick="closeTaskDetailModal(event)">
+    <div class="board-detail-modal-container board-detail-modal-large" onclick="event.stopPropagation()">
+        <div class="board-detail-modal-header">
+            <h3 class="board-detail-modal-title">
+                <i class="bi bi-card-checklist"></i>
+                <span id="taskDetailTitle">Детали задачи</span>
+            </h3>
+            <button class="board-detail-modal-close" onclick="closeTaskDetailModal()">
+                <i class="bi bi-x"></i>
+            </button>
+        </div>
+
+        <div id="taskViewMode" class="board-detail-modal-body">
+            <div class="task-detail-view-section">
+                <h2 id="taskViewName" class="task-detail-view-title"></h2>
+            </div>
+
+            <div class="task-detail-view-section">
+                <h4 class="task-detail-view-label">
+                    <i class="bi bi-text-paragraph"></i>
+                    Описание
+                </h4>
+                <div id="taskViewDescWrapper" class="task-detail-description-wrapper">
+                    <p id="taskViewDescription" class="task-detail-view-text"></p>
+                </div>
+                <div id="toggleDescBtnContainer" style="display: none;">
+                    <button type="button" id="toggleDescBtn" class="unified-button unified-button-secondary" onclick="toggleDescription()">
+                        <i class="bi bi-chevron-down"></i> Развернуть
+                    </button>
+                </div>
+            </div>
+
+            <div class="task-detail-view-row">
+                <div class="task-detail-view-section">
+                    <h4 class="task-detail-view-label">
+                        <i class="bi bi-flag-fill"></i>
+                        Приоритет
+                    </h4>
+                    <span id="taskViewPriority" class="task-detail-view-badge"></span>
+                </div>
+
+                <div class="task-detail-view-section">
+                    <h4 class="task-detail-view-label">
+                        <i class="bi bi-hourglass-split"></i>
+                        Статус
+                    </h4>
+                    <span id="taskViewStatus" class="task-detail-view-badge"></span>
+                </div>
+
+                <div class="task-detail-view-section">
+                    <h4 class="task-detail-view-label">
+                        <i class="bi bi-columns-gap"></i>
+                        Колонка
+                    </h4>
+                    <span id="taskViewColumn" class="task-detail-view-text"></span>
+                </div>
+            </div>
+
+            <div class="task-detail-info-section">
+                <div class="task-detail-info-item">
+                    <span class="task-detail-info-label">
+                        <i class="bi bi-person-fill"></i>
+                        Автор:
+                    </span>
+                    <div id="taskViewAuthor" class="task-detail-info-value"></div>
+                </div>
+                <div class="task-detail-info-item">
+                    <span class="task-detail-info-label">
+                        <i class="bi bi-calendar-fill"></i>
+                        Создано:
+                    </span>
+                    <span id="taskViewCreated" class="task-detail-info-value"></span>
+                </div>
+            </div>
+
+            <div id="taskViewParticipantsSection" class="task-detail-view-section" style="display: none;">
+                <h4 class="task-detail-view-label">
+                    <i class="bi bi-people-fill"></i>
+                    Участники
+                </h4>
+                <div id="taskViewParticipants" class="task-detail-participants-list"></div>
+            </div>
+
+            <div id="taskViewCommentsSection" class="task-detail-view-section" style="display: none;">
+                <h4 class="task-detail-view-label">
+                    <i class="bi bi-chat-left-text-fill"></i>
+                    Комментарии
+                    <span id="taskViewCommentsCount" class="task-detail-comments-badge">0</span>
+                </h4>
+                <div id="taskViewComments" class="task-detail-comments-list"></div>
+            </div>
+        </div>
+
+        <form id="taskDetailForm" method="post" onsubmit="return validateTaskEditForm()" style="display: none;">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="hidden" id="taskDetailId" name="taskId" value=""/>
+            <input type="hidden" id="taskDetailBoardId" name="boardId" value="${board.id}"/>
+
+            <div class="board-detail-modal-body">
+                <div class="board-detail-modal-form-group">
+                    <label for="taskDetailName" class="board-detail-modal-label">
+                        <i class="bi bi-pencil-fill"></i>
+                        Название задачи
+                    </label>
+                    <input
+                            type="text"
+                            id="taskDetailName"
+                            name="name"
+                            class="board-detail-modal-input"
+                            placeholder="Название задачи..."
+                            required
+                            autocomplete="off"
+                    >
+                </div>
+
+                <div class="board-detail-modal-form-group">
+                    <label for="taskDetailDescription" class="board-detail-modal-label">
+                        <i class="bi bi-text-paragraph"></i>
+                        Описание
+                    </label>
+                    <textarea
+                            id="taskDetailDescription"
+                            name="description"
+                            class="board-detail-modal-textarea"
+                            rows="6"
+                            placeholder="Описание задачи..."
+                    ></textarea>
+                </div>
+
+                <div class="board-detail-modal-form-row">
+                    <div class="board-detail-modal-form-group">
+                        <label for="taskDetailPriority" class="board-detail-modal-label">
+                            <i class="bi bi-flag-fill"></i>
+                            Приоритет
+                        </label>
+                        <select id="taskDetailPriority" name="priority" class="board-detail-modal-select">
+                            <option value="LOW">Низкий</option>
+                            <option value="MEDIUM">Средний</option>
+                            <option value="HIGH">Высокий</option>
+                            <option value="URGENT">Срочный</option>
+                        </select>
+                    </div>
+
+                    <div class="board-detail-modal-form-group">
+                        <label for="taskDetailStatus" class="board-detail-modal-label">
+                            <i class="bi bi-hourglass-split"></i>
+                            Статус
+                        </label>
+                        <select id="taskDetailStatus" name="status" class="board-detail-modal-select">
+                            <option value="PENDING">Ожидает</option>
+                            <option value="IN_PROGRESS">В процессе</option>
+                            <option value="COMPLETED">Завершено</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="board-detail-modal-form-group">
+                    <label for="taskDetailColumn" class="board-detail-modal-label">
+                        <i class="bi bi-columns-gap"></i>
+                        Колонка
+                    </label>
+                    <select id="taskDetailColumn" name="columnId" class="board-detail-modal-select" required>
+                        <#if board.columnDto?? && board.columnDto?has_content>
+                        <#list board.columnDto as column>
+                        <option value="${column.id}">${column.name}</option>
+                    </#list>
+                </#if>
+                </select>
+            </div>
+
+            <div class="task-detail-info-section">
+                <div class="task-detail-info-item">
+                        <span class="task-detail-info-label">
+                            <i class="bi bi-person-fill"></i>
+                            Автор:
+                        </span>
+                    <div id="taskEditAuthor" class="task-detail-info-value"></div>
+                </div>
+                <div class="task-detail-info-item">
+                        <span class="task-detail-info-label">
+                            <i class="bi bi-calendar-fill"></i>
+                            Создано:
+                        </span>
+                    <span id="taskEditCreated" class="task-detail-info-value"></span>
+                </div>
+            </div>
+    </div>
+
+    <div class="board-detail-modal-footer">
+        <button type="button" class="unified-button unified-button-danger" onclick="deleteTask()">
+            <i class="bi bi-trash-fill"></i>
+            Удалить
+        </button>
+        <div class="board-detail-modal-footer-right">
+            <button type="button" class="unified-button unified-button-secondary" onclick="cancelTaskEdit()">
+                Отмена
+            </button>
+            <button type="submit" class="unified-button unified-button-primary">
+                <i class="bi bi-check-circle-fill"></i>
+                Сохранить изменения
+            </button>
+        </div>
+    </div>
+    </form>
+
+    <div id="taskViewFooter" class="board-detail-modal-footer">
+        <button type="button" class="unified-button unified-button-danger" onclick="deleteTask()">
+            <i class="bi bi-trash-fill"></i>
+            Удалить
+        </button>
+        <div class="board-detail-modal-footer-right">
+            <button type="button" class="unified-button unified-button-secondary" onclick="closeTaskDetailModal()">
+                Закрыть
+            </button>
+            <button type="button" class="unified-button unified-button-primary" onclick="enableTaskEdit()">
+                <i class="bi bi-pencil-fill"></i>
+                Редактировать
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+
 <script src="/js/board/detail.js"></script>
 </@main.layout>
