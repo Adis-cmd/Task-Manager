@@ -28,6 +28,7 @@ public class TaskMapper {
                 .priority(task.getPriority())
                 .participants(userMapper.toDtoList(task.getParticipants()))
                 .comments(commentMapper.toDtoList(task.getComments()))
+                .columnId(task.getColumn() != null ? task.getColumn().getId() : null)
                 .build();
     }
 

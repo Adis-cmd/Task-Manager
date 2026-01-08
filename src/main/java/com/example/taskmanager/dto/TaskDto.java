@@ -23,4 +23,5 @@ public class TaskDto {
     Status status;
     Priority priority;
     List<CommentDto> comments;
+    Long columnId;
 }
