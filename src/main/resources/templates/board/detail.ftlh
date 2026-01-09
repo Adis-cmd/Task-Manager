@@ -49,7 +49,12 @@
     <div class="board-detail-column">
         <div class="board-detail-column-header">
             <h2 class="board-detail-column-title">${column.name}</h2>
-            <span class="board-detail-column-count">${column.taskDtos?size}</span>
+            <div class="board-detail-column-actions">
+                <span class="board-detail-column-count">${column.taskDtos?size}</span>
+                <button onclick="openEditColumnModal(${column.id}, '${column.name?js_string}')" class="board-detail-column-edit-btn" title="Редактировать колонку">
+                    <i class="bi bi-pencil-fill"></i>
+                </button>
+            </div>
         </div>
 
         <div class="board-detail-tasks-list">
@@ -251,6 +256,51 @@
                 <button type="submit" class="unified-button unified-button-primary">
                     <i class="bi bi-check-circle-fill"></i>
                     Добавить
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="editColumnModal" class="board-detail-modal-overlay" onclick="closeEditColumnModal(event)">
+    <div class="board-detail-modal-container" onclick="event.stopPropagation()">
+        <div class="board-detail-modal-header">
+            <h3 class="board-detail-modal-title">
+                <i class="bi bi-pencil-fill"></i>
+                Редактировать колонку
+            </h3>
+            <button class="board-detail-modal-close" onclick="closeEditColumnModal()">
+                <i class="bi bi-x"></i>
+            </button>
+        </div>
+
+        <form action="/columns/edit" method="post" onsubmit="return validateEditColumnForm()">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="hidden" name="boardId" value="${board.id}"/>
+            <input type="hidden" id="editColumnId" name="id" value=""/>
+
+            <div class="board-detail-modal-body">
+                <div class="board-detail-modal-form-group">
+                    <label for="editColumnName" class="board-detail-modal-label">Название колонки</label>
+                    <input
+                            type="text"
+                            id="editColumnName"
+                            name="name"
+                            class="board-detail-modal-input"
+                            placeholder="Введите название колонки..."
+                            required
+                            autocomplete="off"
+                    >
+                </div>
+            </div>
+
+            <div class="board-detail-modal-footer">
+                <button type="button" class="unified-button unified-button-secondary" onclick="closeEditColumnModal()">
+                    Отмена
+                </button>
+                <button type="submit" class="unified-button unified-button-primary">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Сохранить
                 </button>
             </div>
         </form>
