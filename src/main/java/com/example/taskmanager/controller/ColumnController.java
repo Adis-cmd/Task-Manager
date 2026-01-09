@@ -43,14 +43,19 @@ public class ColumnController {
     }
 
 
-    @PostMapping("edit")
-    public String editColumns(Long id, RequestColumnDto dto, Long boardId, RedirectAttributes redirectAttributes) {
+    @PostMapping("/edit")
+    public String editColumns(
+            @RequestParam Long id,
+            @ModelAttribute RequestColumnDto dto,
+            @RequestParam Long boardId,
+            RedirectAttributes redirectAttributes
+    ) {
         try {
             columnService.editColumn(id, dto);
-            redirectAttributes.addFlashAttribute("success", "Колонка успешно отредактированна!");
-        } catch (ColumnNotFoundException exception) {
+            redirectAttributes.addFlashAttribute("success", "Колонка успешно отредактирована!");
+        } catch (ColumnNotFoundException ex) {
             redirectAttributes.addFlashAttribute("error",
-                    "Ошибка при редактирование колонки: " + exception.getMessage());
+                    "Ошибка при редактировании колонки: " + ex.getMessage());
         }
         return "redirect:/boards/" + boardId;
     }
