@@ -69,6 +69,44 @@ function validateColumnForm() {
     return true;
 }
 
+function openEditColumnModal(columnId, columnName) {
+    const modal = document.getElementById('editColumnModal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    document.getElementById('editColumnId').value = columnId;
+    document.getElementById('editColumnName').value = columnName;
+
+    setTimeout(() => {
+        document.getElementById('editColumnName').focus();
+        document.getElementById('editColumnName').select();
+    }, 100);
+}
+
+function closeEditColumnModal(event) {
+    if (event && event.target !== event.currentTarget) {
+        return;
+    }
+    const modal = document.getElementById('editColumnModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    document.getElementById('editColumnId').value = '';
+    document.getElementById('editColumnName').value = '';
+}
+
+function validateEditColumnForm() {
+    const columnName = document.getElementById('editColumnName').value.trim();
+    if (columnName.length === 0) {
+        alert('Пожалуйста, введите название колонки');
+        return false;
+    }
+    if (columnName.length < 2) {
+        alert('Название колонки должно содержать минимум 2 символа');
+        return false;
+    }
+    return true;
+}
+
 const priorityNames = {
     'LOW': 'Низкий',
     'MEDIUM': 'Средний',
@@ -442,6 +480,7 @@ document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
         closeCreateTaskModal();
         closeAddColumnModal();
+        closeEditColumnModal();
         closeTaskDetailModal();
     }
 
