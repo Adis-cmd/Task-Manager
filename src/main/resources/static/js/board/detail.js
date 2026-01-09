@@ -109,6 +109,10 @@ function openTaskDetailModal(taskId) {
     document.getElementById('taskViewFooter').style.display = 'flex';
     document.getElementById('taskDetailForm').style.display = 'none';
 
+    loadTaskDetails(taskId);
+}
+
+function loadTaskDetails(taskId) {
     const csrfToken = document.querySelector('input[name="_csrf"]').value;
 
     fetch(`/api/tasks/${taskId}`, {
@@ -125,123 +129,198 @@ function openTaskDetailModal(taskId) {
         })
         .then(task => {
             currentTaskData = task;
-
-            // Заполняем режим просмотра
-            document.getElementById('taskDetailTitle').textContent = task.name;
-            document.getElementById('taskViewName').textContent = task.name;
-
-            const descElement = document.getElementById('taskViewDescription');
-            const descWrapper = document.getElementById('taskViewDescWrapper');
-            const description = task.description || '';
-            descElement.textContent = description;
-
-            // Проверяем длину описания
-            const lineCount = description.split('\n').length;
-            const charCount = description.length;
-            const toggleBtnContainer = document.getElementById('toggleDescBtnContainer');
-
-            // Показываем кнопку если больше 50 строк или больше 500 символов
-            if (lineCount > 50 || charCount > 500) {
-                descElement.classList.add('collapsed');
-                descWrapper.classList.add('has-fade');
-                toggleBtnContainer.style.display = 'block';
-                document.getElementById('toggleDescBtn').innerHTML = '<i class="bi bi-chevron-down"></i> Развернуть';
-            } else {
-                descElement.classList.remove('collapsed');
-                descWrapper.classList.remove('has-fade');
-                toggleBtnContainer.style.display = 'none';
-            }
-
-            const priorityBadge = document.getElementById('taskViewPriority');
-            priorityBadge.textContent = priorityNames[task.priority] || task.priority;
-            priorityBadge.className = 'task-detail-view-badge priority-' + task.priority;
-
-            const statusBadge = document.getElementById('taskViewStatus');
-            statusBadge.textContent = statusNames[task.status] || task.status;
-            statusBadge.className = 'task-detail-view-badge status-' + task.status;
-
-            const columnName = getColumnNameById(task.columnId);
-            document.getElementById('taskViewColumn').textContent = columnName;
-
-            document.getElementById('taskDetailId').value = task.id;
-            document.getElementById('taskDetailForm').action = `/tasks/${taskId}`;
-
-            if (task.author) {
-                const authorHtml = `
-                    <div class="board-detail-task-author">
-                        ${task.author.avatar ?
-                            `<img src="/photo/${task.author.avatar}" alt="${task.author.name}" class="board-detail-task-avatar">` :
-                            `<div class="board-detail-task-avatar-placeholder"><i class="bi bi-person-fill"></i></div>`
-                        }
-                        <span>${task.author.name}</span>
-                    </div>
-                `;
-                document.getElementById('taskViewAuthor').innerHTML = authorHtml;
-            }
-
-            if (task.createdAt) {
-                const createdDate = new Date(task.createdAt);
-                const formattedDate = createdDate.toLocaleString('ru-RU', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                document.getElementById('taskViewCreated').textContent = formattedDate;
-            }
-
-            if (task.participants && task.participants.length > 0) {
-                const participantsSection = document.getElementById('taskViewParticipantsSection');
-                participantsSection.style.display = 'block';
-
-                const participantsHtml = task.participants.map(participant => `
-                    <div class="task-detail-participant-item">
-                        ${participant.avatar ?
-                            `<img src="${participant.avatar}" alt="${participant.name}">` :
-                            `<div class="board-detail-task-participant-placeholder"><i class="bi bi-person-fill"></i></div>`
-                        }
-                        <span>${participant.name}</span>
-                    </div>
-                `).join('');
-
-                document.getElementById('taskViewParticipants').innerHTML = participantsHtml;
-            } else {
-                document.getElementById('taskViewParticipantsSection').style.display = 'none';
-            }
-
-            if (task.comments && task.comments.length > 0) {
-                const commentsSection = document.getElementById('taskViewCommentsSection');
-                commentsSection.style.display = 'block';
-
-                document.getElementById('taskViewCommentsCount').textContent = task.comments.length;
-
-                const commentsHtml = task.comments.map(comment => `
-                    <div class="task-detail-comment-item">
-                        <div class="task-detail-comment-header">
-                            ${comment.author.avatar ?
-                                `<img src="/photo/${comment.author.avatar}" alt="${comment.author.name}" class="board-detail-task-avatar">` :
-                                `<div class="board-detail-task-avatar-placeholder"><i class="bi bi-person-fill"></i></div>`
-                            }
-                            <div class="task-detail-comment-info">
-                                <span class="task-detail-comment-author">${comment.author.name}</span>
-                                <span class="task-detail-comment-date">${new Date(comment.createdAt).toLocaleString('ru-RU')}</span>
-                            </div>
-                        </div>
-                        <div class="task-detail-comment-text">${comment.text}</div>
-                    </div>
-                `).join('');
-
-                document.getElementById('taskViewComments').innerHTML = commentsHtml;
-            } else {
-                document.getElementById('taskViewCommentsSection').style.display = 'none';
-            }
+            renderTaskDetails(task);
         })
         .catch(error => {
             console.error('Ошибка загрузки задачи:', error);
             alert('Не удалось загрузить данные задачи');
             closeTaskDetailModal();
         });
+}
+
+function renderTaskDetails(task) {
+    document.getElementById('taskDetailTitle').textContent = task.name;
+    document.getElementById('taskViewName').textContent = task.name;
+
+    const descElement = document.getElementById('taskViewDescription');
+    const descWrapper = document.getElementById('taskViewDescWrapper');
+    const description = task.description || '';
+    descElement.textContent = description;
+
+    const lineCount = description.split('\n').length;
+    const charCount = description.length;
+    const toggleBtnContainer = document.getElementById('toggleDescBtnContainer');
+
+    if (lineCount > 50 || charCount > 500) {
+        descElement.classList.add('collapsed');
+        descWrapper.classList.add('has-fade');
+        toggleBtnContainer.style.display = 'block';
+        document.getElementById('toggleDescBtn').innerHTML = '<i class="bi bi-chevron-down"></i> Развернуть';
+    } else {
+        descElement.classList.remove('collapsed');
+        descWrapper.classList.remove('has-fade');
+        toggleBtnContainer.style.display = 'none';
+    }
+
+    const priorityBadge = document.getElementById('taskViewPriority');
+    priorityBadge.textContent = priorityNames[task.priority] || task.priority;
+    priorityBadge.className = 'task-detail-view-badge priority-' + task.priority;
+
+    const statusBadge = document.getElementById('taskViewStatus');
+    statusBadge.textContent = statusNames[task.status] || task.status;
+    statusBadge.className = 'task-detail-view-badge status-' + task.status;
+
+    const columnName = getColumnNameById(task.columnId);
+    document.getElementById('taskViewColumn').textContent = columnName;
+
+    document.getElementById('taskDetailId').value = task.id;
+    document.getElementById('taskDetailForm').action = `/tasks/${task.id}`;
+
+    if (task.author) {
+        const authorHtml = `
+            <div class="board-detail-task-author">
+                ${task.author.avatar ?
+                    `<img src="/photo/${task.author.avatar}" alt="${task.author.name}" class="board-detail-task-avatar">` :
+                    `<div class="board-detail-task-avatar-placeholder"><i class="bi bi-person-fill"></i></div>`
+                }
+                <span>${task.author.name}</span>
+            </div>
+        `;
+        document.getElementById('taskViewAuthor').innerHTML = authorHtml;
+    }
+
+    if (task.createdAt) {
+        const createdDate = new Date(task.createdAt);
+        const formattedDate = createdDate.toLocaleString('ru-RU', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        document.getElementById('taskViewCreated').textContent = formattedDate;
+    }
+
+    if (task.participants && task.participants.length > 0) {
+        const participantsSection = document.getElementById('taskViewParticipantsSection');
+        participantsSection.style.display = 'block';
+
+        const participantsHtml = task.participants.map(participant => `
+            <div class="task-detail-participant-item">
+                ${participant.avatar ?
+                    `<img src="${participant.avatar}" alt="${participant.name}">` :
+                    `<div class="board-detail-task-participant-placeholder"><i class="bi bi-person-fill"></i></div>`
+                }
+                <span>${participant.name}</span>
+            </div>
+        `).join('');
+
+        document.getElementById('taskViewParticipants').innerHTML = participantsHtml;
+    } else {
+        document.getElementById('taskViewParticipantsSection').style.display = 'none';
+    }
+
+    renderComments(task);
+}
+
+function renderComments(task) {
+    const commentsSection = document.getElementById('taskViewCommentsSection');
+    commentsSection.style.display = 'block';
+
+    const commentCount = task.comments ? task.comments.length : 0;
+    document.getElementById('taskViewCommentsCount').textContent = commentCount;
+
+    let commentsHtml = '';
+
+    if (task.comments && task.comments.length > 0) {
+        commentsHtml = task.comments.map(comment => `
+            <div class="task-detail-comment-item">
+                <div class="task-detail-comment-header">
+                    ${comment.author.avatar ?
+                        `<img src="/photo/${comment.author.avatar}" alt="${comment.author.name}" class="board-detail-task-avatar">` :
+                        `<div class="board-detail-task-avatar-placeholder"><i class="bi bi-person-fill"></i></div>`
+                    }
+                    <div class="task-detail-comment-info">
+                        <span class="task-detail-comment-author">${comment.author.name}</span>
+                        <span class="task-detail-comment-date">${new Date(comment.createdAt).toLocaleString('ru-RU')}</span>
+                    </div>
+                </div>
+                <div class="task-detail-comment-text">${escapeHtml(comment.text)}</div>
+            </div>
+        `).join('');
+    }
+
+    commentsHtml += `
+        <div class="task-detail-comment-form">
+            <textarea
+                id="newCommentText"
+                class="task-detail-comment-textarea"
+                placeholder="Написать комментарий..."
+                rows="3"
+            ></textarea>
+            <button
+                type="button"
+                class="unified-button unified-button-primary"
+                onclick="submitComment()"
+            >
+                <i class="bi bi-send-fill"></i>
+                Отправить
+            </button>
+        </div>
+    `;
+
+    document.getElementById('taskViewComments').innerHTML = commentsHtml;
+}
+
+function submitComment() {
+    const commentText = document.getElementById('newCommentText').value.trim();
+
+    if (!commentText) {
+        alert('Пожалуйста, введите текст комментария');
+        return;
+    }
+
+    if (!currentTaskData) {
+        alert('Ошибка: задача не загружена');
+        return;
+    }
+
+    const csrfToken = document.querySelector('input[name="_csrf"]').value;
+    const taskId = currentTaskData.id;
+
+    const submitButton = event.target;
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<i class="bi bi-hourglass-split"></i> Отправка...';
+
+    fetch(`/api/comment/tasks/${taskId}/comments`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({
+            text: commentText
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка при добавлении комментария');
+        }
+        document.getElementById('newCommentText').value = '';
+        loadTaskDetails(taskId);
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        alert('Не удалось добавить комментарий');
+        submitButton.disabled = false;
+        submitButton.innerHTML = '<i class="bi bi-send-fill"></i> Отправить';
+    });
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 function getColumnNameById(columnId) {
