@@ -78,4 +78,10 @@ public class TaskServiceImpl implements TaskService {
         return taskMapper.toDto(task);
     }
 
+    @Override
+    public Task findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException("Task Not found!!"));
+    }
+
 }
