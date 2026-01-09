@@ -1,4 +1,3 @@
-
 .board-detail-wrapper {
     max-width: 100%;
     margin: 0 auto;
@@ -110,6 +109,16 @@
     transform: translateY(0);
 }
 
+.unified-button-danger {
+    background: #dc3545;
+    color: #ffffff;
+}
+
+.unified-button-danger:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
 
 .board-detail-columns-container {
     display: flex;
@@ -208,7 +217,6 @@
     background: #999;
 }
 
-
 .board-detail-task-card {
     background: #ffffff;
     border: 1px solid #e0e0e0;
@@ -280,7 +288,6 @@
     padding-top: 12px;
     border-top: 1px solid #f0f0f0;
 }
-
 
 .board-detail-task-author {
     display: flex;
@@ -404,7 +411,6 @@
     font-size: 16px;
 }
 
-
 .board-detail-empty-column {
     text-align: center;
     padding: 40px 20px;
@@ -461,6 +467,10 @@
     max-height: 90vh;
     overflow-y: auto;
     animation: slideUp 0.3s ease-out;
+}
+
+.board-detail-modal-large {
+    max-width: 800px;
 }
 
 @keyframes slideUp {
@@ -529,12 +539,24 @@
     margin-bottom: 20px;
 }
 
+.board-detail-modal-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
 .board-detail-modal-label {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 14px;
     font-weight: 600;
     color: #1a1a1a;
     margin-bottom: 8px;
+}
+
+.board-detail-modal-label i {
+    font-size: 16px;
 }
 
 .board-detail-modal-input,
@@ -594,7 +616,8 @@
     padding: 20px 28px;
     display: flex;
     gap: 10px;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     border-top: 1px solid #e0e0e0;
     position: sticky;
     bottom: 0;
@@ -602,38 +625,9 @@
     border-radius: 0 0 16px 16px;
 }
 
-.board-detail-modal-button {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    border: none;
-}
-
-.board-detail-modal-button-primary {
-    background: #1a1a1a;
-    color: #ffffff;
-}
-
-.board-detail-modal-button-primary:hover {
-    background: #000000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.board-detail-modal-button-secondary {
-    background: #ffffff;
-    color: #1a1a1a;
-    border: 2px solid #e0e0e0;
-}
-
-.board-detail-modal-button-secondary:hover {
-    background: #f8f9fa;
-    border-color: #1a1a1a;
+.board-detail-modal-footer-right {
+    display: flex;
+    gap: 10px;
 }
 
 .board-flash-message {
@@ -716,64 +710,7 @@
     }
 }
 
-@media (max-width: 768px) {
-    .board-detail-wrapper {
-        padding: 20px 15px;
-    }
-
-    .board-detail-header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 20px;
-    }
-
-    .board-detail-name {
-        font-size: 22px;
-    }
-
-    .board-detail-actions {
-        width: 100%;
-        flex-direction: column;
-    }
-
-    .unified-button {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .board-detail-column {
-        min-width: 280px;
-        max-width: 280px;
-    }
-
-    .board-detail-modal-container {
-        max-width: 100%;
-        max-height: 100vh;
-        border-radius: 0;
-    }
-
-    .board-detail-modal-header,
-    .board-detail-modal-footer {
-        border-radius: 0;
-    }
-
-    .board-detail-modal-footer {
-        flex-direction: column;
-    }
-
-    .board-detail-modal-button {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .board-flash-message {
-        left: 15px;
-        right: 15px;
-        min-width: auto;
-    }
-}
-
-/* Стили для режима просмотра */
+/* Стили для режима просмотра задачи */
 .task-detail-view-section {
     margin-bottom: 24px;
 }
@@ -806,12 +743,51 @@
     line-height: 1.6;
     margin: 0;
     white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .task-detail-view-text:empty::before {
     content: 'Описание отсутствует';
     color: #999;
     font-style: italic;
+}
+
+#taskViewDescription.collapsed {
+    max-height: 150px;
+    overflow: hidden;
+    display: block;
+}
+
+.task-detail-description-wrapper {
+    position: relative;
+}
+
+.task-detail-description-wrapper.has-fade::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+    pointer-events: none;
+}
+
+#toggleDescBtnContainer {
+    margin-top: 10px;
+}
+
+#toggleDescBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    padding: 6px 12px;
+}
+
+#toggleDescBtn i {
+    font-size: 14px;
 }
 
 .task-detail-view-badge {
@@ -919,47 +895,11 @@
     border-radius: 50%;
 }
 
+/* Стили для комментариев */
 .task-detail-comments-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
-}
-
-.task-detail-comment-item {
-    padding: 12px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    border-left: 3px solid #2196f3;
-}
-
-.task-detail-comment-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-.task-detail-comment-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.task-detail-comment-author {
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
-}
-
-.task-detail-comment-date {
-    font-size: 12px;
-    color: #999;
-}
-
-.task-detail-comment-text {
-    font-size: 14px;
-    color: #555;
-    line-height: 1.5;
-    white-space: pre-wrap;
 }
 
 .task-detail-comments-badge {
@@ -977,8 +917,134 @@
     margin-left: 8px;
 }
 
+.task-detail-comment-item {
+    margin-bottom: 16px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border-left: 3px solid #2196f3;
+}
+
+.task-detail-comment-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.task-detail-comment-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.task-detail-comment-author {
+    font-weight: 600;
+    font-size: 14px;
+    color: #111827;
+}
+
+.task-detail-comment-date {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.task-detail-comment-text {
+    color: #374151;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.task-detail-comment-form {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.task-detail-comment-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    margin-bottom: 12px;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.task-detail-comment-textarea:focus {
+    outline: none;
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.05);
+}
+
 /* Адаптивность для мобильных */
 @media (max-width: 768px) {
+    .board-detail-wrapper {
+        padding: 20px 15px;
+    }
+
+    .board-detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .board-detail-name {
+        font-size: 22px;
+    }
+
+    .board-detail-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .unified-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .board-detail-column {
+        min-width: 280px;
+        max-width: 280px;
+    }
+
+    .board-detail-modal-container {
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .board-detail-modal-header,
+    .board-detail-modal-footer {
+        border-radius: 0;
+    }
+
+    .board-detail-modal-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .board-detail-modal-footer-right {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .unified-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .board-flash-message {
+        left: 15px;
+        right: 15px;
+        min-width: auto;
+    }
+
     .task-detail-view-row {
         grid-template-columns: 1fr;
     }
@@ -987,55 +1053,8 @@
         flex-direction: column;
         gap: 12px;
     }
-}
 
-/* Стили для описания задачи с функцией свернуть/развернуть */
-.task-detail-view-section {
-    margin-bottom: 20px;
-}
-
-#taskViewDescription {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    word-break: break-word;
-    line-height: 1.6;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-#taskViewDescription.collapsed {
-    max-height: 150px;
-    overflow: hidden;
-    display: block;
-}
-
-.task-detail-description-wrapper {
-    position: relative;
-}
-
-.task-detail-description-wrapper.has-fade::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 50px;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-    pointer-events: none;
-}
-
-#toggleDescBtnContainer {
-    margin-top: 10px;
-}
-
-#toggleDescBtn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    padding: 6px 12px;
-}
-
-#toggleDescBtn i {
-    font-size: 14px;
+    .board-detail-modal-form-row {
+        grid-template-columns: 1fr;
+    }
 }
