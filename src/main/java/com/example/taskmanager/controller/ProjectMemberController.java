@@ -2,6 +2,7 @@ package com.example.taskmanager.controller;
 
 import com.example.taskmanager.dto.AddProjectMemberRequest;
 import com.example.taskmanager.exception.ProjectNotFountException;
+import com.example.taskmanager.exception.ProjectOperationException;
 import com.example.taskmanager.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,17 +25,15 @@ public class ProjectMemberController {
             @ModelAttribute AddProjectMemberRequest request,
             Principal principal,
             RedirectAttributes redirectAttributes) {
+
         try {
             projectService.addMemberForProject(request, principal.getName());
             redirectAttributes.addFlashAttribute("successMessage", "Участник успешно добавлен");
-        } catch (ProjectNotFountException ex) {
+        } catch (ProjectOperationException ex) {
             redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
-        } catch (IllegalArgumentException ex) {
-            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
-        } catch (Exception ex) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Произошла ошибка: " + ex.getMessage());
         }
 
         return "redirect:/project/" + request.getProjectId();
     }
+
 }

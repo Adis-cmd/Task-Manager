@@ -9,6 +9,7 @@ import com.example.taskmanager.entity.project.Project;
 import com.example.taskmanager.entity.project.ProjectMember;
 import com.example.taskmanager.entity.user.User;
 import com.example.taskmanager.exception.ProjectNotFountException;
+import com.example.taskmanager.exception.ProjectOperationException;
 import com.example.taskmanager.repo.ProjectRepository;
 import com.example.taskmanager.service.BoardService;
 import com.example.taskmanager.service.ProjectMemberService;
@@ -52,7 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public ProjectDetailDto detailProject(Long id){
+    public ProjectDetailDto detailProject(Long id) {
         Project project = repository.findById(id)
                 .orElseThrow(() -> new ProjectNotFountException("Project not found!!"));
         List<BoardDto> boards = boardService.findAllBoardByProject(project.getId());
@@ -75,32 +76,19 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
 
-
-
     @Transactional
     @Override
-    public void addMemberForProject(AddProjectMemberRequest request, String email) {
+    public void addMemberForProject(AddProjectMemberRequest request, String currentUserEmail) {
         Project project = repository.findById(request.getProjectId())
-                .orElseThrow(() -> new ProjectNotFountException("Project Not Found!!!"));
+                .orElseThrow(() -> new ProjectOperationException("Проект не найден"));
+
         User userToAdd = userService.findByEmail(request.getEmail());
-        User currentUser = userService.findByEmail(email);
-        Role role;
-        try {
-            role = Role.valueOf(request.getRole().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid role: " + request.getRole());
-        }
 
-        if (role == Role.LEADER) {
-            if (!project.getLeader().getId().equals(currentUser.getId())) {
-                throw new RuntimeException("Only the current leader can assign a new leader!");
-            }
+        User currentUser = userService.findByEmail(currentUserEmail);
 
-            if (project.getLeader() != null && !project.getLeader().getId().equals(userToAdd.getId())) {
-                throw new RuntimeException("Project already has a leader!");
-            }
-            project.setLeader(userToAdd);
-        }
+        Role role = parseRole(request.getRole());
+
+        validateMemberAddition(project, userToAdd, currentUser, role);
 
         ProjectMember projectMember = ProjectMember.builder()
                 .project(project)
@@ -110,7 +98,37 @@ public class ProjectServiceImpl implements ProjectService {
 
         project.getMembers().add(projectMember);
         projectMemberService.save(projectMember);
-
     }
+
+    private Role parseRole(String roleStr) {
+        try {
+            return Role.valueOf(roleStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new ProjectOperationException("Неверная роль: " + roleStr);
+        }
+    }
+
+    private void validateMemberAddition(Project project, User userToAdd, User currentUser, Role role) {
+        boolean isAlreadyMember = project.getMembers().stream()
+                .anyMatch(pm -> pm.getUser().getId().equals(userToAdd.getId()));
+        if (isAlreadyMember) {
+            throw new ProjectOperationException("Пользователь уже является участником проекта");
+        }
+
+        if (role == Role.LEADER) {
+            if (!project.getLeader().getId().equals(currentUser.getId())) {
+                throw new ProjectOperationException("Только текущий лидер может назначить нового лидера");
+            }
+
+            if (project.getLeader() != null && !project.getLeader().getId().equals(userToAdd.getId())) {
+                throw new ProjectOperationException("В проекте уже есть лидер");
+            }
+
+            project.setLeader(userToAdd);
+        }
+    }
+
+
+
 
 }
