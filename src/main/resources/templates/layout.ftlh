@@ -16,15 +16,148 @@
             box-sizing: border-box;
         }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 230px;
+            min-height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid #e8ecf0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 200;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 22px 20px;
+            text-decoration: none;
+            border-bottom: 1px solid #e8ecf0;
+        }
+
+        .sidebar-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: #00bcd4;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo-text {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-link i {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-link:hover {
+            background: #f0f9fb;
+            color: #00bcd4;
+        }
+
+        .sidebar-link.active {
+            background: #00bcd4;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .sidebar-link.active i {
+            color: #ffffff;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: #e8ecf0;
+            margin: 8px 12px;
+        }
+
+        .sidebar-bottom {
+            padding: 12px 12px 20px;
+        }
+
+        .sidebar-logout {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #ef4444;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        .sidebar-logout i {
+            font-size: 18px;
+        }
+
+        .sidebar-logout:hover {
+            background: #fef2f2;
+        }
+
+        .page-wrapper {
+            margin-left: 230px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
         .header {
             background: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 0 48px;
-            height: 70px;
-            display: grid;
-            grid-template-columns: 250px 1fr auto;
+            border-bottom: 1px solid #e8ecf0;
+            padding: 0 32px;
+            height: 68px;
+            display: flex;
             align-items: center;
+            justify-content: space-between;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -32,41 +165,165 @@
         }
 
         .header.scrolled {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
-        .logo {
-            font-size: 22px;
-            font-weight: 600;
-            color: #1a1a1a;
+        .header-search {
             display: flex;
             align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            transition: transform 0.3s ease;
+            gap: 10px;
+            background: #f5f7fa;
+            border: 1px solid #e8ecf0;
+            border-radius: 10px;
+            padding: 9px 16px;
+            width: 280px;
+            transition: border-color 0.2s;
         }
 
-        .logo:hover {
-            transform: scale(1.05);
+        .header-search:focus-within {
+            border-color: #00bcd4;
         }
 
-        .logo i {
-            font-size: 24px;
-            color: #1a1a1a;
+        .header-search i {
+            color: #9ca3af;
+            font-size: 16px;
         }
 
-        .nav {
+        .header-search input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 14px;
+            color: #374151;
+            width: 100%;
+        }
+
+        .header-search input::placeholder {
+            color: #9ca3af;
+        }
+
+        .header-right {
             display: flex;
-            gap: 40px;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
             align-items: center;
             justify-content: center;
+            background: #f5f7fa;
+            border: 1px solid #e8ecf0;
+            color: #6b7280;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
         }
 
-        .nav-right {
+        .header-icon-btn:hover {
+            background: #f0f9fb;
+            color: #00bcd4;
+            border-color: #00bcd4;
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 16px;
+            height: 16px;
+            background: #ef4444;
+            border-radius: 50%;
+            font-size: 10px;
+            color: #fff;
             display: flex;
-            gap: 12px;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .header-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px 6px 6px;
+            background: #f5f7fa;
+            border: 1px solid #e8ecf0;
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .header-profile:hover {
+            border-color: #00bcd4;
+            background: #f0f9fb;
+        }
+
+        .header-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #00bcd4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .header-profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-profile-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.2;
+        }
+
+        .header-profile-role {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .container {
+            flex: 1;
+            padding: 32px;
+            max-width: 100%;
+        }
+
+        .footer {
+            padding: 24px 32px;
+            background: #ffffff;
+            border-top: 1px solid #e8ecf0;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 8px;
+        }
+
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #00bcd4;
         }
 
         .burger-menu {
@@ -77,385 +334,173 @@
             padding: 8px;
             background: none;
             border: none;
-            z-index: 101;
+            z-index: 300;
         }
 
         .burger-line {
-            width: 24px;
+            width: 22px;
             height: 2px;
             background: #1a1a1a;
             transition: all 0.3s ease;
+            border-radius: 2px;
         }
 
-        .burger-menu.active .burger-line:nth-child(1) {
-            transform: rotate(45deg) translate(7px, 7px);
-        }
+        .burger-menu.active .burger-line:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+        .burger-menu.active .burger-line:nth-child(2) { opacity: 0; }
+        .burger-menu.active .burger-line:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
 
-        .burger-menu.active .burger-line:nth-child(2) {
-            opacity: 0;
-        }
-
-        .burger-menu.active .burger-line:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-
-        .mobile-menu {
+        .sidebar-overlay {
             display: none;
             position: fixed;
-            top: 70px;
-            left: 0;
-            right: 0;
-            background: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 24px;
-            z-index: 99;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            max-height: calc(100vh - 70px);
-            overflow-y: auto;
-        }
-
-        .mobile-menu.active {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .mobile-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .mobile-nav-link {
-            color: #666;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 500;
-            padding: 12px 16px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .mobile-nav-link i {
-            font-size: 18px;
-            opacity: 1;
-            transform: none;
-        }
-
-        .mobile-nav-link:hover,
-        .mobile-nav-link.active {
-            background: #f5f5f5;
-            color: #1a1a1a;
-        }
-
-        .mobile-nav-link.active {
-            font-weight: 600;
-        }
-
-        .mobile-divider {
-            height: 1px;
-            background: #e0e0e0;
-            margin: 8px 0;
-        }
-
-        .mobile-btn {
-            width: 100%;
-            text-align: center;
-        }
-
-        .nav-link {
-            color: #666;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 0;
-        }
-
-        .nav-link i {
-            font-size: 16px;
-            opacity: 0;
-            transform: translateX(-5px);
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: #1a1a1a;
-        }
-
-        .nav-link:hover i {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #1a1a1a;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-
-        .nav-link.active {
-            color: #1a1a1a;
-            font-weight: 600;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: 1px solid #1a1a1a;
-            border-radius: 4px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #1a1a1a;
-            color: #ffffff;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            background: #333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .btn i {
-            font-size: 16px;
-        }
-
-        .btn-secondary {
-            background: #ffffff;
-            color: #1a1a1a;
-        }
-
-        .btn-secondary:hover {
-            background: #f5f5f5;
-        }
-
-        .btn-logout {
-            background: transparent;
-            border: 1px solid #dc3545;
-            color: #dc3545;
-            padding: 10px 20px;
-        }
-
-        .btn-logout:hover {
-            background: #dc3545;
-            color: #ffffff;
-        }
-
-        .btn-profile {
-            background: #ffffff;
-            color: #1a1a1a;
-            border: 1px solid #e0e0e0;
-            padding: 10px 20px;
-        }
-
-        .btn-profile:hover {
-            background: #f5f5f5;
-            border-color: #1a1a1a;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-            flex: 1;
-        }
-
-        .footer {
-            padding: 48px;
-            background: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            text-align: center;
-            color: #666;
-            font-size: 14px;
-            margin-top: auto;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 1rem;
-        }
-
-        .footer-links a {
-            color: #666;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: #1a1a1a;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 199;
         }
 
         @media (max-width: 768px) {
-            .header {
-                grid-template-columns: 1fr auto;
-                padding: 0 24px;
+            .sidebar {
+                transform: translateX(-100%);
             }
 
-            .nav {
-                display: none;
+            .sidebar.open {
+                transform: translateX(0);
             }
 
-            .nav-right {
-                display: none;
+            .sidebar-overlay.open {
+                display: block;
+            }
+
+            .page-wrapper {
+                margin-left: 0;
             }
 
             .burger-menu {
                 display: flex;
+            }
+
+            .header-search {
+                width: 160px;
+            }
+
+            .header-profile-info {
+                display: none;
+            }
+
+            .container {
+                padding: 20px 16px;
             }
         }
     </style>
 </head>
 <body>
 
-<header class="header" id="header">
-    <a href="/" class="logo">
-        <i class="bi bi-kanban-fill"></i>
-        TaskManager Pro
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <a href="/" class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+            <i class="bi bi-kanban-fill"></i>
+        </div>
+        <span class="sidebar-logo-text">TaskManager</span>
     </a>
 
-    <nav class="nav">
+    <nav class="sidebar-nav">
         <#assign currentPath = springMacroRequestContext.requestUri>
 
-        <a href="/" class="nav-link ${(currentPath == '/')?then('active', '')}">
+        <a href="/" class="sidebar-link ${(currentPath == '/')?then('active', '')}">
             <i class="bi bi-house-door-fill"></i>
             Главная
         </a>
 
-        <a href="/projects" class="nav-link ${(currentPath?starts_with('/projects'))?then('active', '')}">
+        <a href="/projects" class="sidebar-link ${(currentPath?starts_with('/projects'))?then('active', '')}">
             <i class="bi bi-kanban"></i>
             Проекты
         </a>
 
-        <a href="/tasks" class="nav-link ${(currentPath?starts_with('/tasks'))?then('active', '')}">
+        <a href="/tasks" class="sidebar-link ${(currentPath?starts_with('/tasks'))?then('active', '')}">
             <i class="bi bi-list-check"></i>
             Задачи
         </a>
 
-        <a href="/team" class="nav-link ${(currentPath?starts_with('/team'))?then('active', '')}">
+        <a href="/team" class="sidebar-link ${(currentPath?starts_with('/team'))?then('active', '')}">
             <i class="bi bi-people-fill"></i>
             Команда
+        </a>
+
+        <div class="sidebar-divider"></div>
+
+        <a href="/profile/main" class="sidebar-link ${(currentPath?starts_with('/profile'))?then('active', '')}">
+            <i class="bi bi-person-circle"></i>
+            Профиль
+        </a>
+
+        <a href="/settings" class="sidebar-link ${(currentPath?starts_with('/settings'))?then('active', '')}">
+            <i class="bi bi-gear-fill"></i>
+            Настройки
         </a>
     </nav>
 
-    <div class="nav-right">
+    <div class="sidebar-bottom">
+        <div class="sidebar-divider"></div>
         <#if SPRING_SECURITY_CONTEXT?? && SPRING_SECURITY_CONTEXT.authentication??>
-        <#assign user = SPRING_SECURITY_CONTEXT.authentication.principal>
-
-        <a href="/profile/main" class="btn btn-profile">
-            <i class="bi bi-person-circle"></i>
-            Профиль
-        </a>
-
         <#if _csrf??>
-        <form action="/logout" method="post" style="display: inline;">
+        <form action="/logout" method="post">
             <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
                    value="${(_csrf.token)!'--no-token--'}"/>
-            <button type="submit" class="btn btn-logout">
+            <button type="submit" class="sidebar-logout">
                 <i class="bi bi-box-arrow-right"></i>
                 Выйти
             </button>
         </form>
     </#if>
     <#else>
-    <a href="/auth/login" class="btn">
+    <a href="/auth/login" class="sidebar-link">
         <i class="bi bi-box-arrow-in-right"></i>
         Войти
     </a>
 </#if>
 </div>
+</aside>
 
-<button class="burger-menu" id="burgerMenu">
-    <span class="burger-line"></span>
-    <span class="burger-line"></span>
-    <span class="burger-line"></span>
-</button>
+<div class="page-wrapper">
+
+    <header class="header" id="header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <button class="burger-menu" id="burgerMenu">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+            </button>
+
+            <div class="header-search">
+                <i class="bi bi-search"></i>
+                <input type="text" placeholder="Поиск...">
+            </div>
+        </div>
+
+        <div class="header-right">
+            <a href="/notifications" class="header-icon-btn">
+                <i class="bi bi-bell-fill"></i>
+                <span class="notif-badge">3</span>
+            </a>
+
+            <#if SPRING_SECURITY_CONTEXT?? && SPRING_SECURITY_CONTEXT.authentication??>
+            <a href="/profile/main" class="header-profile">
+                <div class="header-avatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div class="header-profile-info">
+                    <span class="header-profile-name">${SPRING_SECURITY_CONTEXT.authentication.name!'Пользователь'}</span>
+                    <span class="header-profile-role">Участник</span>
+                </div>
+            </a>
+            <#else>
+            <a href="/auth/login" class="header-icon-btn">
+                <i class="bi bi-box-arrow-in-right"></i>
+            </a>
+        </#if>
+</div>
 </header>
-
-<div class="mobile-menu" id="mobileMenu">
-    <nav class="mobile-nav">
-        <#assign currentPath = springMacroRequestContext.requestUri>
-
-        <a href="/" class="mobile-nav-link ${(currentPath == '/')?then('active', '')}">
-            <i class="bi bi-house-door-fill"></i>
-            Главная
-        </a>
-
-        <a href="/projects" class="mobile-nav-link ${(currentPath?starts_with('/projects'))?then('active', '')}">
-            <i class="bi bi-kanban"></i>
-            Проекты
-        </a>
-
-        <a href="/tasks" class="mobile-nav-link ${(currentPath?starts_with('/tasks'))?then('active', '')}">
-            <i class="bi bi-list-check"></i>
-            Задачи
-        </a>
-
-        <a href="/team" class="mobile-nav-link ${(currentPath?starts_with('/team'))?then('active', '')}">
-            <i class="bi bi-people-fill"></i>
-            Команда
-        </a>
-
-        <#if SPRING_SECURITY_CONTEXT?? && SPRING_SECURITY_CONTEXT.authentication??>
-        <div class="mobile-divider"></div>
-
-        <a href="/profile/main" class="mobile-nav-link ${(currentPath?starts_with('/profile'))?then('active', '')}">
-            <i class="bi bi-person-circle"></i>
-            Профиль
-        </a>
-
-        <#if _csrf??>
-        <form action="/logout" method="post" class="mobile-btn">
-            <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
-                   value="${(_csrf.token)!'--no-token--'}"/>
-            <button type="submit" class="btn btn-logout" style="width: 100%;">
-                <i class="bi bi-box-arrow-right"></i>
-                Выйти
-            </button>
-        </form>
-    </#if>
-    <#else>
-    <div class="mobile-divider"></div>
-    <a href="/auth/login" class="btn mobile-btn">
-        <i class="bi bi-box-arrow-in-right"></i>
-        Войти
-    </a>
-</#if>
-</nav>
-</div>
 
 <div class="container">
     <#nested spring>
@@ -471,23 +516,27 @@
     </div>
 </footer>
 
+</div>
+
 <script>
     window.addEventListener('scroll', function() {
         const header = document.getElementById('header');
-        if (window.scrollY > 0) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
+        header.classList.toggle('scrolled', window.scrollY > 0);
     });
 
     const burgerMenu = document.getElementById('burgerMenu');
-    const mobileMenu = document.getElementById('mobileMenu');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
 
-    burgerMenu.addEventListener('click', function() {
+    function toggleSidebar() {
         burgerMenu.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-    });
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+        document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+    }
+
+    burgerMenu.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
 </script>
 
 </body>
