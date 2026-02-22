@@ -1,688 +1,504 @@
 <#import "../layout.ftlh" as main>
-<@main.layout ; spring>
+<@main.layout>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-    .profile-wrapper {
-        max-width: 1600px;
-        margin: 0 auto;
-        padding: 40px 20px;
+    :root {
+        --cyan: #00bcd4;
+        --cyan-dark: #0097a7;
+        --cyan-glow: rgba(0,188,212,0.22);
+        --dark: #1a1a1a;
+        --gray: #6b7280;
+        --light: #f8fafc;
+        --border: #e8ecf0;
+        --r: 16px;
     }
 
-    .profile-header {
-        background: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        padding: 56px 64px;
-        margin-bottom: 32px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-        animation: profileFadeInUp 0.6s ease;
-        display: flex;
-        align-items: center;
-        gap: 56px;
-        position: relative;
+    .profile-page { max-width: 900px; margin: 0 auto; }
+
+    .profile-hero {
+        border-radius: 24px;
+        background: #0d1f24;
         overflow: hidden;
-    }
-
-    .profile-header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, #1a1a1a 0%, #4a4a4a 100%);
-    }
-
-    @keyframes profileFadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .profile-avatar-section {
-        flex-shrink: 0;
         position: relative;
-    }
-
-    .profile-avatar-image {
-        width: 160px;
-        height: 160px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid #f5f5f5;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .profile-avatar-placeholder {
-        width: 160px;
-        height: 160px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 4px solid #e0e0e0;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .profile-avatar-placeholder i {
-        font-size: 64px;
-        color: #999;
-    }
-
-    .profile-info-container {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .profile-user-name {
-        font-size: 42px;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 16px;
-        letter-spacing: -0.5px;
-    }
-
-    .profile-projects-count {
-        font-size: 18px;
-        color: #666;
-        margin-bottom: 28px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .profile-projects-count i {
-        font-size: 22px;
-        color: #999;
-    }
-
-    .profile-edit-button {
-        padding: 16px 36px;
-        border: 2px solid #1a1a1a;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: 600;
-        background: #1a1a1a;
-        color: #ffffff;
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-
-    .profile-edit-button:hover {
-        background: #333;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    .profile-edit-button i {
-        font-size: 20px;
-    }
-
-    .profile-navigation-tabs {
-        background: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        margin-bottom: 32px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-        overflow: hidden;
-    }
-
-    .profile-navigation-list {
-        display: flex;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        background: #fafafa;
-    }
-
-    .profile-navigation-item {
-        flex: 1;
-    }
-
-    .profile-navigation-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        padding: 24px 40px;
-        color: #666;
-        text-decoration: none;
-        font-size: 16px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        border-bottom: 3px solid transparent;
-        position: relative;
-    }
-
-    .profile-navigation-link:hover {
-        background: #ffffff;
-        color: #1a1a1a;
-    }
-
-    .profile-navigation-link.active {
-        color: #1a1a1a;
-        background: #ffffff;
-        border-bottom-color: #1a1a1a;
-        font-weight: 700;
-    }
-
-    .profile-navigation-link i {
-        font-size: 22px;
-    }
-
-    .profile-content-section {
-        background: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        padding: 48px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-    }
-
-    .profile-section-title {
-        font-size: 32px;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-    }
-
-    .profile-section-title-content {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-    }
-
-    .profile-section-title i {
-        font-size: 36px;
-    }
-
-    .profile-projects-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-        gap: 28px;
-    }
-
-    .profile-project-card {
-        background: #fafafa;
-        border: 2px solid #e0e0e0;
-        border-radius: 12px;
-        padding: 32px;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .profile-project-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-        border-color: #1a1a1a;
-        background: #ffffff;
-    }
-
-    .profile-project-header {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        gap: 16px;
-    }
-
-    .profile-project-name {
-        font-size: 22px;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 8px;
-    }
-
-    .profile-project-role-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        background: #1a1a1a;
-        color: #ffffff;
-        border-radius: 20px;
-        font-size: 13px;
-        font-weight: 700;
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
-
-    .profile-project-leader-info {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding-top: 20px;
-        border-top: 2px solid #e0e0e0;
-        margin-top: 20px;
-    }
-
-    .profile-project-leader-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #e0e0e0;
-    }
-
-    .profile-project-leader-placeholder {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid #d0d0d0;
-    }
-
-    .profile-project-leader-placeholder i {
-        font-size: 20px;
-        color: #999;
-    }
-
-    .profile-project-leader-label {
-        font-size: 11px;
-        color: #999;
-        text-transform: uppercase;
-        font-weight: 700;
-        margin-bottom: 4px;
-    }
-
-    .profile-project-leader-name {
-        font-size: 15px;
-        font-weight: 600;
-        color: #1a1a1a;
-    }
-
-    .profile-empty-state {
-        text-align: center;
-        padding: 100px 20px;
-    }
-
-    .profile-empty-state i {
-        font-size: 96px;
-        color: #d0d0d0;
-        margin-bottom: 28px;
-        display: block;
-    }
-
-    .profile-empty-state-title {
-        font-size: 30px;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 14px;
-    }
-
-    .profile-empty-state-text {
-        font-size: 18px;
-        color: #666;
-        margin-bottom: 36px;
-    }
-
-    .profile-create-project-button {
-        padding: 16px 32px;
-        border: none;
-        border-radius: 8px;
-        font-size: 17px;
-        font-weight: 700;
-        cursor: pointer;
-        background: #1a1a1a;
-        color: #ffffff;
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        transition: all 0.3s ease;
-    }
-
-    .profile-create-project-button:hover {
-        background: #333;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    }
-
-    .profile-create-project-button i {
-        font-size: 22px;
-    }
-
-    .profile-modal-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.6);
-        z-index: 1000;
-        backdrop-filter: blur(4px);
-    }
-
-    .profile-modal-overlay.active {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-    }
-
-    .profile-modal-container {
-        background: #ffffff;
-        border-radius: 12px;
-        width: 100%;
-        max-width: 540px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-
-    .profile-modal-header {
-        padding: 32px 40px 24px;
-        border-bottom: 2px solid #e0e0e0;
-        position: relative;
-    }
-
-    .profile-modal-title {
-        font-size: 28px;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .profile-modal-title i {
-        font-size: 32px;
-    }
-
-    .profile-modal-close {
-        position: absolute;
-        top: 32px;
-        right: 32px;
-        background: transparent;
-        border: none;
-        font-size: 28px;
-        cursor: pointer;
-        color: #999;
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .profile-modal-close:hover {
-        background: #f5f5f5;
-        color: #1a1a1a;
-    }
-
-    .profile-modal-body {
-        padding: 32px 40px;
-    }
-
-    .profile-modal-form-group {
         margin-bottom: 24px;
+        animation: up .6s ease both;
     }
 
-    .profile-modal-label {
-        display: block;
-        font-size: 15px;
-        font-weight: 600;
-        color: #1a1a1a;
-        margin-bottom: 10px;
+    .profile-hero::before {
+        content: '';
+        position: absolute; inset: 0;
+        background:
+            radial-gradient(ellipse 65% 90% at -5% 50%, rgba(0,188,212,.55) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 50% at 80% 10%,  rgba(0,188,212,.18) 0%, transparent 55%),
+            radial-gradient(ellipse 30% 40% at 100% 80%, rgba(0,150,170,.2)  0%, transparent 55%);
+        animation: heroGlow 10s ease-in-out infinite alternate;
     }
 
-    .profile-modal-input {
-        width: 100%;
-        padding: 16px 20px;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        font-size: 16px;
-        color: #1a1a1a;
-        box-sizing: border-box;
+    @keyframes heroGlow {
+        0%   { opacity: 1; }
+        100% { opacity: .82; }
     }
 
-    .profile-modal-input:focus {
-        outline: none;
-        border-color: #1a1a1a;
+    .profile-hero-grid {
+        position: absolute; inset: 0;
+        background-image:
+            linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+        background-size: 44px 44px;
     }
 
-    .profile-modal-footer {
-        padding: 24px 40px 32px;
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
+    .profile-hero-inner {
+        position: relative; z-index: 2;
+        padding: 40px 44px;
+        display: flex; align-items: center; gap: 28px;
     }
 
-    .profile-modal-button {
-        padding: 14px 32px;
-        border: 2px solid #1a1a1a;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
+    .p-avatar {
+        flex-shrink: 0;
+        width: 90px; height: 90px; border-radius: 22px;
+        border: 2.5px solid rgba(0,188,212,.5);
+        box-shadow: 0 0 0 6px rgba(0,188,212,.12);
+        overflow: hidden;
+        background: rgba(0,188,212,.15);
+        display: flex; align-items: center; justify-content: center;
     }
 
-    .profile-modal-button-primary {
-        background: #1a1a1a;
-        color: #ffffff;
+    .p-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .p-avatar i   { font-size: 42px; color: rgba(255,255,255,.45); }
+
+    .p-info { flex: 1; }
+
+    .p-name {
+        font-family: 'Sora', sans-serif;
+        font-size: 26px; font-weight: 800;
+        color: #fff; letter-spacing: -.7px; margin-bottom: 8px;
     }
 
-    .profile-modal-button-primary:hover {
-        background: #333;
+    .p-meta {
+        display: flex; align-items: center; gap: 14px;
+        flex-wrap: wrap; margin-bottom: 18px;
     }
 
-    .profile-modal-button-secondary {
-        background: #ffffff;
-        color: #1a1a1a;
-        border-color: #e0e0e0;
+    .p-meta-item {
+        display: flex; align-items: center; gap: 6px;
+        font-size: 13px; color: rgba(255,255,255,.5);
     }
 
-    .profile-modal-button-secondary:hover {
-        background: #f5f5f5;
-        border-color: #1a1a1a;
+    .p-meta-item i { color: var(--cyan); font-size: 14px; }
+
+    .p-edit-btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 9px 18px;
+        background: rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.14);
+        border-radius: 10px;
+        font-size: 13px; font-weight: 600;
+        color: rgba(255,255,255,.82); text-decoration: none;
+        transition: all .22s;
     }
 
-    .profile-flash-message {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 18px 24px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 15px;
-        font-weight: 600;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        z-index: 2000;
-        max-width: 400px;
+    .p-edit-btn:hover {
+        background: rgba(0,188,212,.2);
+        border-color: rgba(0,188,212,.4);
+        color: #fff; transform: translateY(-1px);
     }
 
-    .profile-flash-success {
-        background: #1a1a1a;
-        color: #ffffff;
+    .p-stats { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .p-stat {
+        background: rgba(0,188,212,.12);
+        border: 1px solid rgba(0,188,212,.25);
+        border-radius: 14px; padding: 16px 22px;
+        text-align: center; min-width: 90px;
+        transition: all .22s;
     }
 
-    .profile-flash-error {
-        background: #2d2d2d;
-        color: #ffffff;
+    .p-stat:hover { background: rgba(0,188,212,.22); border-color: rgba(0,188,212,.4); }
+
+    .p-stat-num {
+        font-family: 'Sora', sans-serif;
+        font-size: 26px; font-weight: 800;
+        color: #fff; line-height: 1;
     }
 
-    .profile-flash-message i {
-        font-size: 22px;
+    .p-stat-lbl { font-size: 11px; color: rgba(255,255,255,.4); margin-top: 4px; }
+
+    .section-bar {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 16px;
+        animation: up .6s .08s ease both;
     }
 
-    .profile-flash-close {
-        background: transparent;
-        border: none;
-        color: #ffffff;
-        font-size: 24px;
-        cursor: pointer;
-        padding: 0;
-        width: 32px;
-        height: 32px;
-        border-radius: 4px;
-        transition: all 0.3s ease;
+    .section-title {
+        display: flex; align-items: center; gap: 10px;
+        font-family: 'Sora', sans-serif;
+        font-size: 17px; font-weight: 700; color: var(--dark);
     }
 
-    .profile-flash-close:hover {
-        background: rgba(255,255,255,0.1);
+    .section-title i { color: var(--cyan); font-size: 19px; }
+
+    .btn-create {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 10px 20px;
+        background: var(--dark); color: #fff;
+        border: none; border-radius: 10px;
+        font-size: 13px; font-weight: 700;
+        font-family: 'Sora', sans-serif;
+        cursor: pointer; text-decoration: none;
+        transition: all .22s; position: relative; overflow: hidden;
+    }
+
+    .btn-create::after {
+        content: '';
+        position: absolute; inset: 0;
+        background: linear-gradient(135deg, rgba(0,188,212,.2), transparent 55%);
+        opacity: 0; transition: opacity .3s;
+    }
+
+    .btn-create:hover {
+        background: #111; transform: translateY(-1px); color: #fff;
+        box-shadow: 0 6px 18px rgba(0,0,0,.18), 0 0 0 1px rgba(0,188,212,.18);
+    }
+
+    .btn-create:hover::after { opacity: 1; }
+
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+        gap: 14px;
+        animation: up .6s .12s ease both;
+    }
+
+    .proj-card {
+        background: #fff; border: 1px solid var(--border);
+        border-radius: var(--r); padding: 22px;
+        cursor: pointer; transition: all .25s ease;
+        position: relative; overflow: hidden;
+        display: flex; flex-direction: column; gap: 14px;
+    }
+
+    .proj-card::before {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        background: linear-gradient(90deg, var(--cyan), #00e5ff);
+        opacity: 0; transition: opacity .25s;
+    }
+
+    .proj-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 36px rgba(0,0,0,.08);
+        border-color: transparent;
+    }
+
+    .proj-card:hover::before { opacity: 1; }
+
+    .proj-card-top {
+        display: flex; align-items: flex-start;
+        justify-content: space-between; gap: 10px;
+    }
+
+    .proj-icon {
+        width: 42px; height: 42px; border-radius: 12px;
+        background: rgba(0,188,212,.1);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 20px; color: var(--cyan); flex-shrink: 0;
+    }
+
+    .proj-badge {
+        display: inline-flex; align-items: center; gap: 5px;
+        font-size: 11px; font-weight: 700;
+        border-radius: 8px; padding: 4px 10px; flex-shrink: 0;
+    }
+
+    .proj-badge.leader { background:rgba(245,158,11,.12); color:#d97706; border:1px solid rgba(245,158,11,.22); }
+    .proj-badge.member { background:rgba(0,188,212,.1); color:var(--cyan-dark); border:1px solid rgba(0,188,212,.2); }
+
+    .proj-name {
+        font-family: 'Sora', sans-serif;
+        font-size: 15px; font-weight: 700;
+        color: var(--dark); line-height: 1.35;
+    }
+
+    .proj-leader {
+        display: flex; align-items: center; gap: 9px;
+        padding-top: 12px; border-top: 1px solid var(--border);
+    }
+
+    .proj-leader-ava {
+        width: 28px; height: 28px; border-radius: 8px;
+        object-fit: cover; flex-shrink: 0;
+    }
+
+    .proj-leader-ava-ph {
+        width: 28px; height: 28px; border-radius: 8px;
+        background: rgba(0,188,212,.1);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 13px; color: var(--cyan); flex-shrink: 0;
+    }
+
+    .proj-leader-lbl { font-size: 11px; color: var(--gray); }
+    .proj-leader-name { font-size: 13px; font-weight: 600; color: var(--dark); margin-top: 1px; }
+
+    .empty-state {
+        text-align: center; padding: 64px 32px;
+        background: #fff; border: 1.5px dashed var(--border);
+        border-radius: var(--r);
+        animation: up .6s .1s ease both;
+    }
+
+    .empty-state i { font-size: 52px; color: #d1d5db; display: block; margin-bottom: 16px; }
+
+    .empty-state h3 {
+        font-family: 'Sora', sans-serif;
+        font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 8px;
+    }
+
+    .empty-state p { font-size: 14px; color: var(--gray); margin-bottom: 24px; }
+
+    .flash {
+        position: fixed; bottom: 24px; right: 24px;
+        display: flex; align-items: center; gap: 10px;
+        padding: 13px 18px; border-radius: 14px;
+        font-size: 14px; font-weight: 500;
+        box-shadow: 0 8px 28px rgba(0,0,0,.13);
+        z-index: 900; max-width: 340px;
+        animation: slideIn .35s ease both;
+        transition: opacity .3s, transform .3s;
+    }
+
+    .flash i { font-size: 17px; flex-shrink: 0; }
+    .flash-ok  { background:#f0fdf4; border:1px solid #bbf7d0; color:#15803d; }
+    .flash-err { background:#fff5f5; border:1px solid #fecaca; color:#dc2626; }
+
+    .flash-close {
+        background: none; border: none; color: inherit;
+        cursor: pointer; font-size: 18px; opacity: .5;
+        transition: opacity .2s; padding: 0; margin-left: 4px; line-height: 1;
+    }
+    .flash-close:hover { opacity: 1; }
+
+    .modal-overlay {
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,.4); backdrop-filter: blur(6px);
+        z-index: 500; display: flex; align-items: center; justify-content: center;
+        padding: 24px; opacity: 0; pointer-events: none; transition: opacity .3s;
+    }
+
+    .modal-overlay.active { opacity: 1; pointer-events: all; }
+
+    .modal-box {
+        background: #fff; border-radius: 20px;
+        width: 100%; max-width: 420px;
+        box-shadow: 0 24px 64px rgba(0,0,0,.16); overflow: hidden;
+        transform: translateY(20px) scale(.97); transition: transform .3s;
+    }
+
+    .modal-overlay.active .modal-box { transform: translateY(0) scale(1); }
+
+    .modal-head {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 20px 22px 16px; border-bottom: 1px solid var(--border);
+    }
+
+    .modal-head-title {
+        display: flex; align-items: center; gap: 9px;
+        font-family: 'Sora', sans-serif;
+        font-size: 15px; font-weight: 700; color: var(--dark);
+    }
+
+    .modal-head-title i { color: var(--cyan); font-size: 17px; }
+
+    .modal-close-btn {
+        width: 30px; height: 30px; border-radius: 8px;
+        background: #f5f7fa; border: none;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 17px; color: var(--gray); cursor: pointer; transition: all .2s;
+    }
+
+    .modal-close-btn:hover { background: #fee2e2; color: #ef4444; }
+
+    .modal-body { padding: 20px 22px; }
+
+    .modal-label {
+        display: block; font-size: 11px; font-weight: 700; color: var(--gray);
+        letter-spacing: .7px; text-transform: uppercase; margin-bottom: 8px;
+    }
+
+    .modal-input {
+        width: 100%; padding: 12px 14px;
+        border: 1.5px solid var(--border); border-radius: 12px;
+        font-size: 14px; color: var(--dark); background: var(--light);
+        outline: none; transition: all .22s; font-family: inherit;
+    }
+
+    .modal-input::placeholder { color: #c4c9d4; }
+    .modal-input:hover  { border-color: #c0cad5; }
+    .modal-input:focus  { border-color: var(--cyan); background: #fff; box-shadow: 0 0 0 4px rgba(0,188,212,.1); }
+
+    .modal-foot {
+        display: flex; gap: 10px; justify-content: flex-end;
+        padding: 14px 22px 20px; border-top: 1px solid var(--border);
+    }
+
+    .modal-btn {
+        display: inline-flex; align-items: center; gap: 7px;
+        padding: 10px 18px; border-radius: 10px;
+        font-size: 14px; font-weight: 700;
+        font-family: 'Sora', sans-serif; cursor: pointer; border: none; transition: all .22s;
+    }
+
+    .modal-btn-cancel { background: #f5f7fa; color: var(--gray); border: 1px solid var(--border); }
+    .modal-btn-cancel:hover { background: var(--border); color: var(--dark); }
+
+    .modal-btn-ok { background: var(--dark); color: #fff; position: relative; overflow: hidden; }
+    .modal-btn-ok::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,188,212,.2),transparent 55%); opacity:0; transition:opacity .3s; }
+    .modal-btn-ok:hover { background:#111; box-shadow:0 6px 18px rgba(0,0,0,.18),0 0 0 1px rgba(0,188,212,.15); transform:translateY(-1px); }
+    .modal-btn-ok:hover::after { opacity: 1; }
+
+    @keyframes up       { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideIn  { from{opacity:0;transform:translateX(28px)} to{opacity:1;transform:translateX(0)} }
+
+    @media (max-width: 700px) {
+        .profile-hero-inner { flex-direction:column; align-items:flex-start; padding:28px 22px; }
+        .p-stats { flex-wrap: wrap; }
+        .projects-grid { grid-template-columns: 1fr; }
     }
 </style>
 
-<div class="profile-wrapper">
-    <div class="profile-header">
-        <div class="profile-avatar-section">
-            <#if profile.avatar?? && profile.avatar?has_content>
-            <img src="/photo/${profile.avatar}" alt="${profile.name}" class="profile-avatar-image">
-            <#else>
-            <div class="profile-avatar-placeholder">
-                <i class="bi bi-person-fill"></i>
-            </div>
-        </#if>
-    </div>
+<div class="profile-page">
 
-    <div class="profile-info-container">
-        <h1 class="profile-user-name">${profile.name}</h1>
-        <div class="profile-projects-count">
-            <i class="bi bi-kanban"></i>
-            <span>${profile.projectDto?size} проектов</span>
-        </div>
-        <a href="/profile/edit" class="profile-edit-button">
-            <i class="bi bi-pencil-fill"></i>
-            <span>Редактировать профиль</span>
-        </a>
-    </div>
-</div>
+    <div class="profile-hero">
+        <div class="profile-hero-grid"></div>
+        <div class="profile-hero-inner">
 
-<div class="profile-navigation-tabs">
-    <ul class="profile-navigation-list">
-        <li class="profile-navigation-item">
-            <a href="/profile/main" class="profile-navigation-link active">
-                <i class="bi bi-kanban-fill"></i>
-                Проекты
-            </a>
-        </li>
-        <li class="profile-navigation-item">
-            <a href="/profile/activity" class="profile-navigation-link">
-                <i class="bi bi-clock-history"></i>
-                Активность
-            </a>
-        </li>
-    </ul>
-</div>
-
-<div class="profile-content-section">
-    <h2 class="profile-section-title">
-        <div class="profile-section-title-content">
-            <i class="bi bi-kanban-fill"></i>
-            Мои проекты
-        </div>
-        <button onclick="openCreateProjectModal()" class="profile-create-project-button">
-            <i class="bi bi-plus-circle-fill"></i>
-            <span>Создать проект</span>
-        </button>
-    </h2>
-
-    <#if profile.projectDto?? && profile.projectDto?has_content>
-    <div class="profile-projects-grid">
-        <#list profile.projectDto as project>
-        <div class="profile-project-card" onclick="window.location.href='/project/${project.id}'">
-            <div class="profile-project-header">
-                <div>
-                    <h3 class="profile-project-name">${project.name}</h3>
-                </div>
-                <span class="profile-project-role-badge ${project.userRole?lower_case}">
-                                <i class="bi bi-${(project.userRole == 'LEADER')?then('star-fill', 'person-fill')}"></i>
-                                ${(project.userRole == 'LEADER')?then('Лидер', 'Участник')}
-                            </span>
-            </div>
-
-            <div class="profile-project-leader-info">
-                <#if project.leader.avatar?? && project.leader.avatar?has_content>
-                <img src="/photo/${project.leader.avatar}" alt="${project.leader.name}" class="profile-project-leader-avatar">
+            <div class="p-avatar">
+                <#if profile.avatar?? && profile.avatar?has_content>
+                <img src="/photo/${profile.avatar}" alt="${profile.name}">
                 <#else>
-                <div class="profile-project-leader-placeholder">
-                    <i class="bi bi-person-fill"></i>
-                </div>
+                <i class="bi bi-person-fill"></i>
             </#if>
-            <div class="profile-project-leader-details">
-                <div class="profile-project-leader-label">Руководитель</div>
-                <div class="profile-project-leader-name">${project.leader.name}</div>
+        </div>
+
+        <div class="p-info">
+            <div class="p-name">${profile.name}</div>
+            <div class="p-meta">
+                <div class="p-meta-item">
+                    <i class="bi bi-kanban-fill"></i>
+                    <span>${profile.projectDto?size} проектов</span>
+                </div>
             </div>
+            <a href="/profile/edit" class="p-edit-btn">
+                <i class="bi bi-pencil-fill"></i>
+                Редактировать профиль
+            </a>
+        </div>
+
+        <div class="p-stats">
+            <div class="p-stat">
+                <div class="p-stat-num">${profile.projectDto?size}</div>
+                <div class="p-stat-lbl">Проектов</div>
+            </div>
+            <div class="p-stat">
+                <#assign lc=0>
+                <#list profile.projectDto as p><#if p.userRole=='LEADER'><#assign lc=lc+1></#if></#list>
+        <div class="p-stat-num">${lc}</div>
+        <div class="p-stat-lbl">Лидер</div>
+    </div>
+</div>
+
+</div>
+</div>
+
+<div class="section-bar">
+    <div class="section-title">
+        <i class="bi bi-kanban-fill"></i>
+        Мои проекты
+    </div>
+    <button class="btn-create" onclick="openModal()">
+        <i class="bi bi-plus-lg"></i>
+        Создать проект
+    </button>
+</div>
+
+<#if profile.projectDto?? && profile.projectDto?has_content>
+<div class="projects-grid">
+    <#list profile.projectDto as project>
+    <div class="proj-card" onclick="location.href='/project/${project.id}'">
+        <div class="proj-card-top">
+            <div class="proj-icon"><i class="bi bi-kanban"></i></div>
+            <span class="proj-badge ${project.userRole?lower_case}">
+                        <i class="bi bi-${(project.userRole=='LEADER')?then('star-fill','person-fill')}"></i>
+                        ${(project.userRole=='LEADER')?then('Лидер','Участник')}
+                    </span>
+        </div>
+        <div class="proj-name">${project.name}</div>
+        <div class="proj-leader">
+            <#if project.leader.avatar?? && project.leader.avatar?has_content>
+            <img src="/photo/${project.leader.avatar}" alt="${project.leader.name}" class="proj-leader-ava">
+            <#else>
+            <div class="proj-leader-ava-ph"><i class="bi bi-person-fill"></i></div>
+        </#if>
+        <div>
+            <div class="proj-leader-lbl">Руководитель</div>
+            <div class="proj-leader-name">${project.leader.name}</div>
         </div>
     </div>
+</div>
 </#list>
 </div>
 <#else>
-<div class="profile-empty-state">
+<div class="empty-state">
     <i class="bi bi-folder-x"></i>
-    <h3 class="profile-empty-state-title">Нет проектов</h3>
-    <p class="profile-empty-state-text">Вы пока не участвуете ни в одном проекте</p>
+    <h3>Нет проектов</h3>
+    <p>Вы пока не участвуете ни в одном проекте</p>
+    <button class="btn-create" onclick="openModal()">
+        <i class="bi bi-plus-lg"></i>
+        Создать первый проект
+    </button>
 </div>
 </#if>
-</div>
+
 </div>
 
 <#if success??>
-<div class="profile-flash-message profile-flash-success">
+<div class="flash flash-ok">
     <i class="bi bi-check-circle-fill"></i>
     <span>${success}</span>
-    <button onclick="closeFlashMessage(this)" class="profile-flash-close">
-        <i class="bi bi-x"></i>
-    </button>
+    <button class="flash-close" onclick="closeFlash(this)"><i class="bi bi-x"></i></button>
 </div>
 </#if>
 
 <#if error??>
-<div class="profile-flash-message profile-flash-error">
+<div class="flash flash-err">
     <i class="bi bi-exclamation-circle-fill"></i>
     <span>${error}</span>
-    <button onclick="closeFlashMessage(this)" class="profile-flash-close">
-        <i class="bi bi-x"></i>
-    </button>
+    <button class="flash-close" onclick="closeFlash(this)"><i class="bi bi-x"></i></button>
 </div>
 </#if>
 
-<div id="createProjectModal" class="profile-modal-overlay" onclick="closeCreateProjectModal(event)">
-    <div class="profile-modal-container" onclick="event.stopPropagation()">
-        <div class="profile-modal-header">
-            <h3 class="profile-modal-title">
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-head">
+            <div class="modal-head-title">
                 <i class="bi bi-plus-circle-fill"></i>
-                Создать новый проект
-            </h3>
-            <button class="profile-modal-close" onclick="closeCreateProjectModal()">
-                <i class="bi bi-x"></i>
-            </button>
-        </div>
-
-        <form action="/project/create" method="post" onsubmit="return validateProjectForm()">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-            <div class="profile-modal-body">
-                <div class="profile-modal-form-group">
-                    <label for="projectName" class="profile-modal-label">Название проекта</label>
-                    <input type="text" id="projectName" name="name" class="profile-modal-input" placeholder="Введите название проекта..." required autocomplete="off">
-                </div>
+                Новый проект
             </div>
-
-            <div class="profile-modal-footer">
-                <button type="button" class="profile-modal-button profile-modal-button-secondary" onclick="closeCreateProjectModal()">
-                    <span>Отмена</span>
-                </button>
-                <button type="submit" class="profile-modal-button profile-modal-button-primary">
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span>Создать проект</span>
+            <button class="modal-close-btn" onclick="closeModal()"><i class="bi bi-x"></i></button>
+        </div>
+        <form action="/project/create" method="post" onsubmit="return validateForm()">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <div class="modal-body">
+                <label for="projectName" class="modal-label">Название проекта</label>
+                <input type="text" id="projectName" name="name" class="modal-input" placeholder="Введите название..." required autocomplete="off">
+            </div>
+            <div class="modal-foot">
+                <button type="button" class="modal-btn modal-btn-cancel" onclick="closeModal()">Отмена</button>
+                <button type="submit" class="modal-btn modal-btn-ok">
+                    <i class="bi bi-check-lg"></i> Создать
                 </button>
             </div>
         </form>
@@ -690,66 +506,41 @@
 </div>
 
 <script>
-    function openCreateProjectModal() {
-        const modal = document.getElementById('createProjectModal');
+    const modal = document.getElementById('modal');
+
+    function openModal() {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        setTimeout(() => {
-            document.getElementById('projectName').focus();
-        }, 100);
+        setTimeout(() => document.getElementById('projectName').focus(), 100);
     }
 
-    function closeCreateProjectModal(event) {
-        if (event && event.target !== event.currentTarget) {
-            return;
-        }
-        const modal = document.getElementById('createProjectModal');
+    function closeModal(e) {
+        if (e && e.target !== e.currentTarget) return;
         modal.classList.remove('active');
         document.body.style.overflow = '';
         document.getElementById('projectName').value = '';
     }
 
-    function validateProjectForm() {
-        const projectName = document.getElementById('projectName').value.trim();
-        if (projectName.length === 0) {
-            alert('Пожалуйста, введите название проекта');
-            return false;
-        }
-        if (projectName.length < 3) {
-            alert('Название проекта должно содержать минимум 3 символа');
-            return false;
-        }
+    function validateForm() {
+        const v = document.getElementById('projectName').value.trim();
+        if (v.length < 3) { alert('Минимум 3 символа'); return false; }
         return true;
     }
 
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            const modal = document.getElementById('createProjectModal');
-            if (modal.classList.contains('active')) {
-                closeCreateProjectModal();
-            }
-        }
-    });
-
-    function closeFlashMessage(button) {
-        const flashMessage = button.closest('.profile-flash-message');
-        flashMessage.style.opacity = '0';
-        flashMessage.style.transform = 'translateX(100px)';
-        setTimeout(() => {
-            flashMessage.remove();
-        }, 300);
+    function closeFlash(btn) {
+        const el = btn.closest('.flash');
+        el.style.opacity = '0';
+        el.style.transform = 'translateX(40px)';
+        setTimeout(() => el.remove(), 300);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const flashMessages = document.querySelectorAll('.profile-flash-message');
-        flashMessages.forEach(function(message) {
-            setTimeout(function() {
-                const closeButton = message.querySelector('.profile-flash-close');
-                if (closeButton) {
-                    closeButton.click();
-                }
-            }, 5000);
-        });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.flash').forEach(el =>
+            setTimeout(() => closeFlash(el.querySelector('.flash-close')), 5000)
+        );
     });
 </script>
+
 </@main.layout>
