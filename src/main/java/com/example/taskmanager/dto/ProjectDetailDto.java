@@ -1,5 +1,6 @@
 package com.example.taskmanager.dto;
 
+import com.example.taskmanager.entity.project.BoardColumn;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,5 +17,5 @@ public class ProjectDetailDto {
     Long id;
     String name;
     List<ProjectUserDto> members;
-    List<BoardDto> boards;
+    List<BoardColumnDetailsDto> columnDto;
 }

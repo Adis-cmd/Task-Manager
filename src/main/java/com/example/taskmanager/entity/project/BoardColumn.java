@@ -29,6 +29,6 @@ public class BoardColumn {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
-    Board board;
+    @JoinColumn(name = "project_id")
+    private Project project;
 }

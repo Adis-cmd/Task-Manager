@@ -29,10 +29,9 @@ public class Project {
     User leader;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Board> boards;
+    List<BoardColumn> boards;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     List<ProjectMember> members = new ArrayList<>();
-    ;
 }
