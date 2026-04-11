@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface BoardColumnRepository extends JpaRepository<BoardColumn, Long> {
 
 
-    @Query("select c from BoardColumn c where c.board.id = :id")
-    List<BoardColumn> findByBoardId(Long id);
+    @Query("select c from BoardColumn c where c.project.id = :id")
+    List<BoardColumn> findByProjectId(Long id);
 }
