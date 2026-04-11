@@ -28,7 +28,7 @@ public class CommentServiceImpl implements CommentService {
         User user = userService.findByEmail(authorEmail);
         Task task = taskService.findById(taskId);
 
-        projectMemberService.checkTaskEditPermission(user, task.getColumn().getBoard().getProject());
+        projectMemberService.checkTaskEditPermission(user, task.getColumn().getProject());
 
         Comment comment = Comment.builder()
                 .author(user)

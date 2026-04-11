@@ -14,6 +14,8 @@ import com.example.taskmanager.service.ProjectMemberService;
 import com.example.taskmanager.service.TaskService;
 import com.example.taskmanager.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -56,7 +58,7 @@ public class TaskServiceImpl implements TaskService {
         Task task = repository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException("Task Not Found!!!"));
 
-        Project project = task.getColumn().getBoard().getProject();
+        Project project = task.getColumn().getProject();
         memberService.checkTaskEditPermission(user, project);
         task.setName(dto.getName());
         task.setDescription(dto.getDescription());
@@ -82,6 +84,13 @@ public class TaskServiceImpl implements TaskService {
     public Task findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException("Task Not found!!"));
+    }
+
+    @Override
+    public Page<TaskDto> allTask(Pageable pageable, String email) {
+        User user = userService.findByEmail(email);
+        return repository.findAllTaskForUser(pageable, user)
+                .map(taskMapper::toDto);
     }
 
 }

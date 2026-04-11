@@ -7,7 +7,7 @@ import com.example.taskmanager.entity.project.BoardColumn;
 import java.util.List;
 
 public interface BoardColumnService {
-    List<BoardColumnDetailsDto> getAllColumnByBoardId(Long id);
+    List<BoardColumnDetailsDto> getAllColumnByProjectIdId(Long id);
 
     void createColumn(Long id, RequestColumnDto columnDto);
 
