@@ -1,11 +1,14 @@
 package com.example.taskmanager.controller;
 
 import com.example.taskmanager.dto.RequestTaskDto;
+import com.example.taskmanager.dto.TaskDto;
 import com.example.taskmanager.exception.ProjectPermissionDeniedException;
 import com.example.taskmanager.exception.TaskNotFoundException;
 import com.example.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +25,7 @@ public class TaskController {
 
     @PostMapping("/create")
     public String createTask(
-            @RequestParam Long boardId,
+            @RequestParam Long projectId,
             @RequestParam Long columnId,
             @Valid @ModelAttribute RequestTaskDto taskDto,
             BindingResult bindingResult,
@@ -31,24 +34,18 @@ public class TaskController {
     ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("error", "Ошибка валидации");
-            return "redirect:/boards/" + boardId;
+            return "redirect:/project/" + projectId;
         }
         taskService.createTask(columnId, taskDto, principal.getName());
         redirectAttributes.addFlashAttribute("success", "Задача создана");
 
-        return "redirect:/boards/" + boardId;
-    }
-
-    @GetMapping("{id}")
-    public String showTask(Long id, Model model) {
-        model.addAttribute("task", taskService.showTask(id));
-        return "board/detail";
+        return "redirect:/project/" + projectId;
     }
 
     @PostMapping("/{id}")
     public String editTask(
             @PathVariable Long id,
-            @RequestParam Long boardId,
+            @RequestParam Long projectId,
             @RequestParam Long columnId,
             @Valid @ModelAttribute("dto") RequestTaskDto dto,
             BindingResult bindingResult,
@@ -57,7 +54,7 @@ public class TaskController {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("error", "Ошибка валидации данных");
-            return "redirect:/board/" + boardId;
+            return "redirect:/project/" + projectId;
         }
 
         try {
@@ -69,7 +66,15 @@ public class TaskController {
             redirectAttributes.addFlashAttribute("error", "Недостаточно прав для редактирования задачи");
         }
 
-        return "redirect:/boards/" + boardId;
+        return "redirect:/project/" + projectId;
+    }
+
+
+    @GetMapping
+    public String showAllTask(Pageable pageable, Principal principal, Model model) {
+        Page<TaskDto> taskDto = taskService.allTask(pageable, principal.getName());
+        model.addAttribute("taskDto", taskDto);
+        return "task/main";
     }
 
 }

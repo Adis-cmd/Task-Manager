@@ -23,23 +23,23 @@ public class ColumnController {
 
     @PostMapping("create")
     public String createColumns(
-            @RequestParam Long boardId,
+            @RequestParam Long projectId,
             @Valid @ModelAttribute RequestColumnDto columnDto,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
     ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("error", "Ошибка валидации");
-            return "redirect:/boards/" + boardId;
+            return "redirect:/project/" + projectId;
         }
 
         try {
-            columnService.createColumn(boardId, columnDto);
+            columnService.createColumn(projectId, columnDto);
             redirectAttributes.addFlashAttribute("success", "Колонка успешно создана!");
         } catch (BoardNotFoundException ex) {
             redirectAttributes.addFlashAttribute("error", "Ошибка при создании колонки: " + ex.getMessage());
         }
-        return "redirect:/boards/" + boardId;
+        return "redirect:/project/" + projectId;
     }
 
 
