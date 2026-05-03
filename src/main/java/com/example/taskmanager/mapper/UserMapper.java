@@ -1,6 +1,9 @@
 package com.example.taskmanager.mapper;
 
+import com.example.taskmanager.dto.ProjectDto;
 import com.example.taskmanager.dto.UserDto;
+import com.example.taskmanager.dto.ViewProfileDto;
+import com.example.taskmanager.entity.project.ProjectMember;
 import com.example.taskmanager.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,6 +13,30 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class UserMapper {
+
+    private final ProjectMapper projectMapper;
+
+
+    public UserDto toUserDto(User user) {
+        return UserDto.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .avatar(user.getAvatar())
+                .build();
+    }
+
+    public ViewProfileDto toViewProfileDto(User user, List<ProjectMember> members) {
+        List<ProjectDto> projectDtos = members.stream()
+                .map(projectMapper::toProjectDto)
+                .toList();
+
+        return ViewProfileDto.builder()
+                .name(user.getName())
+                .avatar(user.getAvatar())
+                .projectDto(projectDtos)
+                .build();
+    }
+
 
     public UserDto toDto(User user) {
         if (user == null) {
@@ -32,4 +59,6 @@ public class UserMapper {
                 .map(this::toDto)
                 .toList();
     }
+
+
 }
