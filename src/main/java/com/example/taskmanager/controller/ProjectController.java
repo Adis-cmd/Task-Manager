@@ -3,6 +3,8 @@ package com.example.taskmanager.controller;
 import com.example.taskmanager.dto.AddProjectMemberRequest;
 import com.example.taskmanager.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +43,15 @@ public class ProjectController {
     public String showProject(@PathVariable Long id, Model model) {
         model.addAttribute("project", projectService.detailProject(id));
         return "project/detail";
+    }
+
+    @GetMapping
+    public String projects(
+            Principal principal, Model model,
+            @PageableDefault(size = 6) Pageable pageable
+    ) {
+        model.addAttribute("project", projectService.getProjectByEmail(principal.getName(), pageable));
+        return "project/main";
     }
 
 }
