@@ -412,7 +412,7 @@
             Главная
         </a>
 
-        <a href="/projects" class="sidebar-link ${(currentPath?starts_with('/projects'))?then('active', '')}">
+        <a href="/project" class="sidebar-link ${(currentPath?starts_with('/project'))?then('active', '')}">
             <i class="bi bi-kanban"></i>
             Проекты
         </a>

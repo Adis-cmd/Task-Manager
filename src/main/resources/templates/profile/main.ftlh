@@ -402,15 +402,9 @@
                 <div class="p-stat-num">${profile.projectDto?size}</div>
                 <div class="p-stat-lbl">Проектов</div>
             </div>
-            <div class="p-stat">
-                <#assign lc=0>
-                <#list profile.projectDto as p><#if p.userRole=='LEADER'><#assign lc=lc+1></#if></#list>
-        <div class="p-stat-num">${lc}</div>
-        <div class="p-stat-lbl">Лидер</div>
-    </div>
-</div>
+        </div>
 
-</div>
+    </div>
 </div>
 
 <div class="section-bar">
