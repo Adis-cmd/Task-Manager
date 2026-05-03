@@ -1,21 +1,21 @@
 package com.example.taskmanager.service.impl;
 
-import com.example.taskmanager.dto.AddProjectMemberRequest;
-import com.example.taskmanager.dto.BoardColumnDetailsDto;
-import com.example.taskmanager.dto.ProjectDetailDto;
-import com.example.taskmanager.dto.ProjectUserDto;
+import com.example.taskmanager.dto.*;
 import com.example.taskmanager.entity.enums.Role;
 import com.example.taskmanager.entity.project.Project;
 import com.example.taskmanager.entity.project.ProjectMember;
 import com.example.taskmanager.entity.user.User;
 import com.example.taskmanager.exception.ProjectNotFountException;
 import com.example.taskmanager.exception.ProjectOperationException;
+import com.example.taskmanager.mapper.ProjectMapper;
 import com.example.taskmanager.repo.ProjectRepository;
 import com.example.taskmanager.service.BoardColumnService;
 import com.example.taskmanager.service.ProjectMemberService;
 import com.example.taskmanager.service.ProjectService;
 import com.example.taskmanager.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +29,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final UserService userService;
     private final ProjectMemberService projectMemberService;
     private final BoardColumnService boardColumnService;
+    private final ProjectMapper projectMapper;
 
 
     @Override
@@ -127,7 +128,15 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Override
+    public Page<ProjectDto> getProjectByEmail(String email, Pageable pageable) {
 
+        User user = userService.findByEmail(email);
 
+        Page<Project> project = repository.findAllProjectByUserId(pageable, user.getId());
+
+        return repository.findAllProjectByUserId(pageable, user.getId())
+                .map(projectMapper::toProjectDto);
+    }
 
 }
